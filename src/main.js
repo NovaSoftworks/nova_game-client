@@ -1,38 +1,21 @@
-import { Metrics } from './modules/core/metrics.js';
-import { Time } from './modules/core/time.js';
-import { Physics } from './modules/core/physics.js';
-import { SystemManager } from './modules/core/ecs/system-manager.js';
+import { Metrics } from './modules/metrics.js'
+import { NovaEngine } from './modules/engine/nova-engine.js'
+import { Circle } from './modules/components/circle.js'
+import { Input } from './modules/components/input.js'
+import { Transform } from './modules/components/transform.js'
+import { InputSystem } from './modules/systems/input-system.js'
+import { MoveSystem } from './modules/systems/move-system.js'
+import { CircleRendererSystem } from './modules/systems/circle-renderer-system.js'
 
-let accumulatedTime = 0
+NovaEngine.start({ width: 1280, height: 720 }, () => {
+    let player = NovaEngine.createEntity()
+    NovaEngine.addComponent(player, new Input())
+    NovaEngine.addComponent(player, new Transform(600, 300))
+    NovaEngine.addComponent(player, new Circle(16, 'orange'))
 
-function gameLoop() {
-    Time.calculateDeltaTime()
-    let dt = Time.deltaTime
-
-    accumulatedTime += (dt * 1000) // as dt is in seconds
-
-    while (accumulatedTime >= Physics.fixedTimeStep) { // comparing ms with ms
-        SystemManager.fixedUpdate(Physics.fixedTimeStep / 1000)
-        accumulatedTime -= Physics.fixedTimeStep;
-        Physics.stepNumber++
-    }
-
-    SystemManager.update(dt)
-
-    window.requestAnimationFrame(gameLoop)
-}
-
-SystemManager.addSystem({
-    fixedUpdate: true,
-    update: function (dt) {
-        console.log(`My first system. dt = ${dt}`)
-    }
-})
-SystemManager.addSystem({
-    update: function (dt) {
-        console.log(`My second system. dt = ${dt}`)
-    }
+    NovaEngine.addSystem(new CircleRendererSystem())
+    NovaEngine.addSystem(new InputSystem())
+    NovaEngine.addSystem(new MoveSystem())
 })
 
-window.requestAnimationFrame(gameLoop)
 Metrics.show()
