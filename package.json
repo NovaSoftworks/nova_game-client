@@ -1,0 +1,25 @@
+{
+  "name": "nova_game-client",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "",
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NovaSoftworks/nova_game-client.git"
+  },
+  "author": "Nova Softworks",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/NovaSoftworks/nova_game-client/issues"
+  },
+  "homepage": "https://github.com/NovaSoftworks/nova_game-client#readme",
+  "devDependencies": {
+    "parcel": "^2.9.3"
+  }
+}
