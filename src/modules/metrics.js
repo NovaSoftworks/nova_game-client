@@ -1,4 +1,4 @@
-import { Time } from './time.js';
+import { Time } from './engine/core/time.js';
 
 export class Metrics {
     static interval
@@ -8,9 +8,10 @@ export class Metrics {
     }
 
     static show() {
+        Metrics.displayInDom("metrics")
         Metrics.interval = setInterval(() => {
             Metrics.displayInDom("metrics")
-        }, 5000)
+        }, 2500)
     }
 
     static hide() {
