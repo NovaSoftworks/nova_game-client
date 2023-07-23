@@ -1,33 +1,38 @@
-import { Metrics } from './modules/metrics.js';
-import { Time } from './modules/time.js';
-import { Physics } from './modules/physics.js';
+import { Metrics } from './modules/core/metrics.js';
+import { Time } from './modules/core/time.js';
+import { Physics } from './modules/core/physics.js';
+import { SystemManager } from './modules/core/ecs/system-manager.js';
 
 let accumulatedTime = 0
 
-function mainLoop() {
+function gameLoop() {
     Time.calculateDeltaTime()
     let dt = Time.deltaTime
-
-    update(dt)
 
     accumulatedTime += (dt * 1000) // as dt is in seconds
 
     while (accumulatedTime >= Physics.fixedTimeStep) { // comparing ms with ms
-        fixedUpdate(Physics.fixedTimeStep)
+        SystemManager.fixedUpdate(Physics.fixedTimeStep / 1000)
         accumulatedTime -= Physics.fixedTimeStep;
         Physics.stepNumber++
     }
 
-    window.requestAnimationFrame(mainLoop)
+    SystemManager.update(dt)
+
+    window.requestAnimationFrame(gameLoop)
 }
 
-function update() {
-    console.log("updating")
-}
+SystemManager.addSystem({
+    fixedUpdate: true,
+    update: function (dt) {
+        console.log(`My first system. dt = ${dt}`)
+    }
+})
+SystemManager.addSystem({
+    update: function (dt) {
+        console.log(`My second system. dt = ${dt}`)
+    }
+})
 
-function fixedUpdate() {
-    console.log(`Fixed update nb ${Physics.stepNumber}`)
-}
-
-window.requestAnimationFrame(mainLoop)
+window.requestAnimationFrame(gameLoop)
 Metrics.show()
