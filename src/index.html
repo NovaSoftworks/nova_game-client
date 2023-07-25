@@ -1,24 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   <title>Nova</title>
   <link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico">
+  <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
   <script type="module" src="main.js"></script>
 </head>
 
-<body>
-  <h1>Nova</h1>
-  <section>
-    <h1>Metrics</h1>
-    <div id="metrics">
-      <ul>
-        <li>fps: N/A</li>
-        <li>ms: N/A</li>
-      </ul>
+<body class="full-height">
+  <header class="main-header">
+    <div class="wrapper">
+      <a href="/" class="main-logo">
+        <img src="./assets/images/nova-softworks-logo.png" alt="Nova Softworks">
+      </a>
+      <nav class="main-nav">
+        <ul>
+        </ul>
+      </nav>
     </div>
-  </section>
+  </header>
+  <div class="wrapper full-height">
+    <section class="main-section" id="">
+      <div class="call-to-action">
+        <h1 class="title">Nova</h1>
+        <span class="subtitle">Real-time multiplayer server-scaling simulation</span>
+        <div class="play-form">
+          <input type="text" placeholder="Your username goes here...">
+          <a href="" class="btn" id="play-btn">Play Now</a>
+        </div>
+      </div>
+    </section>
+    <section id="game-canvas-container" class="game-section" style="display: none;">
+    </section>
+  </div>
+  <footer class="main-footer">
+    <div class="wrapper">
+      <nav class="footer-nav">
+        <ul>
+        </ul>
+      </nav>
+      <nav class="footer-nav">
+        <ul>
+          <li><a href="https://github.com/NovaSoftworks" class="social-link" target="_blank"><img
+                src="./assets/images/github.png" title="GitHub Icon">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
 </body>
 
 </html>

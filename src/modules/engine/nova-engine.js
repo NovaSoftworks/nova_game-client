@@ -42,7 +42,7 @@ function init(canvasWidth, canvasHeight) {
     const canvas = document.createElement('canvas')
     canvas.width = canvasWidth
     canvas.height = canvasHeight
-    document.body.appendChild(canvas)
+    document.getElementById("game-canvas-container").appendChild(canvas)
 
     Rendering.setCanvas(canvas)
 }
