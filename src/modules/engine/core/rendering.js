@@ -8,6 +8,7 @@ export class Rendering {
     }
 
     static clearCanvas() {
-        Rendering.ctx.clearRect(0, 0, Rendering.canvas.width, Rendering.canvas.height);
+        Rendering.ctx.fillStyle = "#202027";
+        Rendering.ctx.fillRect(0, 0, Rendering.canvas.width, Rendering.canvas.height);
     }
 }
