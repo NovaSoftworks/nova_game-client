@@ -1,6 +1,7 @@
 import { NovaEngine } from '../engine/nova-engine.js'
 
 export class MoveSystem {
+    fixedUpdate = true
 
     update(dt) {
         const entities = NovaEngine.queryEntities('Input', 'Transform')
