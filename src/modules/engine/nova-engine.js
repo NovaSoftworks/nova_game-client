@@ -4,8 +4,10 @@ import { Rendering } from './core/rendering.js'
 import { ComponentManager } from './ecs/component-manager.js'
 import { EntityManager } from './ecs/entity-manager.js'
 import { SystemManager } from './ecs/system-manager.js'
+import { UI } from './core/ui.js'
 
 export class NovaEngine {
+    static UI = UI
     static createEntity = EntityManager.createEntity
     static addComponent = ComponentManager.addComponent
     static getComponent = ComponentManager.getComponent

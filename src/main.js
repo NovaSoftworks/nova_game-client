@@ -7,11 +7,14 @@ import { InputSystem } from './modules/systems/input-system.js'
 import { MoveSystem } from './modules/systems/move-system.js'
 import { CircleRendererSystem } from './modules/systems/circle-renderer-system.js'
 
+import { UIAnchor, UILayout, UITextCase } from './modules/engine/core/ui.js'
+const UI = NovaEngine.UI
+
 function startGame() {
     NovaEngine.start({ width: 960, height: 540 }, () => {
         let player = NovaEngine.createEntity()
         NovaEngine.addComponent(player, new Input())
-        NovaEngine.addComponent(player, new Transform(600, 300))
+        NovaEngine.addComponent(player, new Transform(472, 262))
         NovaEngine.addComponent(player, new Circle(16, 'orange'))
 
         NovaEngine.addSystem(new CircleRendererSystem())
@@ -19,14 +22,23 @@ function startGame() {
         NovaEngine.addSystem(new MoveSystem())
     })
 
+    setupUI()
     Metrics.show()
 }
 
+function setupUI() {
+    UI.createScreen('hud', (hud) => {
+        const nameText = UI.createText(hud, { anchor: UIAnchor.TOPLEFT, offsetX: 20, offsetY: 20, case: UITextCase.UPPER, color: 'white' }).setText('Marem')
+    })
 
-var playBtn = document.getElementById('play-btn')
+    UI.setScreen('hud')
 
-playBtn.onclick = function (e) {
-    e.preventDefault()
+    UI.printHierarchy()
+}
+
+function play(e) {
+    if (e)
+        e.preventDefault()
 
     const mainSection = document.getElementsByClassName('main-section')[0]
     const gameCanvasContainer = document.getElementById('game-canvas-container')
@@ -36,3 +48,10 @@ playBtn.onclick = function (e) {
 
     startGame()
 }
+
+var playBtn = document.getElementById('play-btn')
+
+playBtn.onclick = play
+
+// DEV
+play()
