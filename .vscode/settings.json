@@ -1,3 +1,4 @@
 {
-    "explorer.excludeGitIgnore": true
+    "explorer.excludeGitIgnore": false,
+    "liveServer.settings.root": "/dist"
 }

@@ -17,7 +17,9 @@
 		"vscode": {
 			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
-				"chrisbibby.hide-git-ignored"
+				"chrisbibby.hide-git-ignored",
+				"ms-azuretools.vscode-docker",
+				"ritwickdey.LiveServer"
 			]
 		}
 	}
