@@ -19,7 +19,8 @@
 			"extensions": [
 				"chrisbibby.hide-git-ignored",
 				"ms-azuretools.vscode-docker",
-				"ritwickdey.LiveServer"
+				"ritwickdey.LiveServer",
+				"donjayamanne.githistory"
 			]
 		}
 	}
