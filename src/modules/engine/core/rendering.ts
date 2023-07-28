@@ -1,12 +1,16 @@
 export class Rendering {
     static canvas: HTMLCanvasElement
-    static ctx: CanvasRenderingContext2D | undefined
+    static ctx: CanvasRenderingContext2D
 
     static setCanvas(canvasElement: HTMLCanvasElement) {
         Rendering.canvas = canvasElement
 
         const ctx = canvasElement.getContext('2d')
-        Rendering.ctx = ctx != null ? ctx : undefined
+
+        if (ctx == undefined)
+            throw new Error("Could not get the 2D game canvas context.")
+        else
+            Rendering.ctx = ctx
     }
 
     static clearCanvas() {
