@@ -24,7 +24,7 @@ function startGame() {
     })
 
     setupUI()
-    Metrics.show()
+    //Metrics.show()
 }
 
 function setupUI() {
