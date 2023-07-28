@@ -1,20 +1,21 @@
-import { Metrics } from './modules/metrics.js'
-import { NovaEngine } from './modules/engine/nova-engine.js'
-import { Circle } from './modules/components/circle.js'
-import { Input } from './modules/components/input.js'
-import { Transform } from './modules/components/transform.js'
-import { InputSystem } from './modules/systems/input-system.js'
-import { MoveSystem } from './modules/systems/move-system.js'
-import { CircleRendererSystem } from './modules/systems/circle-renderer-system.js'
+import { Metrics } from './modules/metrics'
+import { NovaEngine } from './modules/engine/nova-engine'
+import { Circle } from './modules/components/circle'
+import { Input } from './modules/components/input'
+import { Transform } from './modules/components/transform'
+import { InputSystem } from './modules/systems/input-system'
+import { MoveSystem } from './modules/systems/move-system'
+import { CircleRendererSystem } from './modules/systems/circle-renderer-system'
 
-import { UIAnchor, UILayout, UITextCase } from './modules/engine/core/ui.js'
+import { UIAnchor, UILayout, UITextCase } from './modules/engine/core/ui'
+import { Vector2 } from './modules/engine/core/math'
 const UI = NovaEngine.UI
 
 function startGame() {
     NovaEngine.start({ width: 960, height: 540 }, () => {
         let player = NovaEngine.createEntity()
         NovaEngine.addComponent(player, new Input())
-        NovaEngine.addComponent(player, new Transform(472, 262))
+        NovaEngine.addComponent(player, new Transform(new Vector2(472, 262)))
         NovaEngine.addComponent(player, new Circle(16, 'orange'))
 
         NovaEngine.addSystem(new CircleRendererSystem())

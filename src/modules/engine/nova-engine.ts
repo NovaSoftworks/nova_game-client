@@ -1,10 +1,11 @@
-import { Time } from './core/time.js'
-import { Physics } from './core/physics.js'
-import { Rendering } from './core/rendering.js'
-import { ComponentManager } from './ecs/component-manager.js'
-import { EntityManager } from './ecs/entity-manager.js'
-import { SystemManager } from './ecs/system-manager.js'
-import { UI } from './core/ui.js'
+import { Time } from './core/time'
+import { Physics } from './core/physics'
+import { Rendering } from './core/rendering'
+import { ComponentManager } from './ecs/component-manager'
+import { EntityManager } from './ecs/entity-manager'
+import { SystemManager } from './ecs/system-manager'
+import { UI } from './core/ui'
+import { Entity } from './ecs/entity'
 
 export class NovaEngine {
     static UI = UI
@@ -23,10 +24,10 @@ export class NovaEngine {
         window.requestAnimationFrame(update);
     }
 
-    static queryEntities(...componentTypes) {
+    static queryEntities(...componentTypes): Array<Entity> {
         const entities = EntityManager.getAllEntities()
 
-        return entities.filter((entity) => {
+        return entities.filter(entity => {
             for (const componentType of componentTypes) {
                 if (!ComponentManager.getComponent(entity, componentType)) {
                     return false;
@@ -44,7 +45,13 @@ function init(canvasWidth, canvasHeight) {
     const canvas = document.createElement('canvas')
     canvas.width = canvasWidth
     canvas.height = canvasHeight
-    document.getElementById("game-canvas-container").appendChild(canvas)
+
+    const gameCanvasContainer = document.getElementById("game-canvas-container")
+    if (gameCanvasContainer) {
+        gameCanvasContainer.appendChild(canvas)
+    } else {
+        throw new Error("Could not attach the game to #game-canvas-container.");
+    }
 
     Rendering.setCanvas(canvas)
 }
@@ -56,13 +63,13 @@ function update() {
     accumulatedTime += (dt * 1000) // as dt is in seconds
 
     while (accumulatedTime >= Physics.fixedTimeStep) { // comparing ms with ms
-        SystemManager.fixedUpdate(Physics.fixedTimeStep / 1000)
+        SystemManager.updateFixedSystems(Physics.fixedTimeStep / 1000)
         accumulatedTime -= Physics.fixedTimeStep;
         Physics.stepNumber++
     }
 
     Rendering.clearCanvas()
-    SystemManager.update(dt)
+    SystemManager.updateSystems(dt)
 
     window.requestAnimationFrame(update)
 }

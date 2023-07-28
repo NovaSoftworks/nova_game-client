@@ -2,10 +2,10 @@ export class Physics {
     /**
      * Interval in seconds between each physics simulation frame.
      */
-    static fixedTimeStep = 16 // ms
+    static fixedTimeStep: number = 16 // ms
 
     /**
      * The number of the last physics simulation frame.
      */
-    static stepNumber = 0
+    static stepNumber: number = 0
 }

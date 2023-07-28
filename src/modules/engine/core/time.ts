@@ -1,10 +1,10 @@
 export class Time {
-    static previousFrameTime = performance.now()
+    static previousFrameTime: number = performance.now()
 
     /**
      * The interval in seconds between the last frame and the current frame.
      */
-    static deltaTime = 0 // s
+    static deltaTime: number = 0 // s
 
     /**
      * Calculates the current deltaTime.

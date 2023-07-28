@@ -1,4 +1,4 @@
-import { Time } from './engine/core/time.js';
+import { Time } from './engine/core/time';
 
 export class Metrics {
     static interval

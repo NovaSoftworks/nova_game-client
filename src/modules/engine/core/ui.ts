@@ -1,4 +1,4 @@
-import { Rendering } from './rendering.js'
+import { Rendering } from './rendering'
 
 export class UI {
     static uiElementId = 0
@@ -20,7 +20,7 @@ export class UI {
         }
     }
 
-    static createElement(tag, parent, width, height, anchor, offsetX = 0, offsetY = 0) {
+    static createElement(tag, parent, width, height, anchor: UIAnchor, offsetX = 0, offsetY = 0) {
         const element = document.createElement(tag)
         element.id = `nova-ui__${UI.uiElementId++}`
         element.classList.add('nova-ui__element')
@@ -188,24 +188,24 @@ export class UI {
     }
 }
 
-export const UIAnchor = {
-    CENTER: 'center',
-    TOPLEFT: 'top-left',
-    TOP: 'top',
-    TOPRIGHT: 'top-right',
-    RIGHT: 'right',
-    BOTTOMRIGHT: 'bottom-right',
-    BOTTOM: 'bottom',
-    BOTTOMLEFT: 'bottom-left',
-    LEFT: 'left',
+export enum UIAnchor {
+    CENTER = 'center',
+    TOPLEFT = 'top-left',
+    TOP = 'top',
+    TOPRIGHT = 'top-right',
+    RIGHT = 'right',
+    BOTTOMRIGHT = 'bottom-right',
+    BOTTOM = 'bottom',
+    BOTTOMLEFT = 'bottom-left',
+    LEFT = 'left'
 }
 
-export const UILayout = {
-    VERTICAL: 'column',
-    HORIZONTAL: 'row',
+export enum UILayout {
+    VERTICAL = 'column',
+    HORIZONTAL = 'row'
 }
 
-export const UITextCase = {
-    UPPER: 'uppercase',
-    LOWER: 'lowercase'
+export enum UITextCase {
+    UPPER = 'uppercase',
+    LOWER = 'lowercase'
 }
