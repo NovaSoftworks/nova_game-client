@@ -5,7 +5,7 @@ export class ComponentManager {
     static components: Map<string, Array<Component>> = new Map<string, Array<Component>>()
 
     static addComponent(entity: Entity, component: Component) {
-        const componentName = component.constructor.name
+        const componentName = component.name
 
         if (!ComponentManager.components.has(componentName)) {
             ComponentManager.components.set(componentName, []);
