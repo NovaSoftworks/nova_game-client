@@ -1,12 +1,12 @@
 import { NovaEngine } from '../engine/nova-engine'
 import { System } from '../engine/ecs/system'
-import { Input } from '../components/input'
+import { PlayerInput } from '../components/player-input'
 import { Transform } from '../components/transform'
 
 export class MoveSystem extends System {
     update(step: number) {
-        for (const entity of NovaEngine.world.queryEntities('Input', 'Transform')) {
-            const inputComponent = NovaEngine.world.getComponent<Input>(entity, 'Input')!
+        for (const entity of NovaEngine.world.queryEntities('PlayerInput', 'Transform')) {
+            const inputComponent = NovaEngine.world.getComponent<PlayerInput>(entity, 'PlayerInput')!
             const transformComponent = NovaEngine.world.getComponent<Transform>(entity, 'Transform')!
 
             const speed = 300

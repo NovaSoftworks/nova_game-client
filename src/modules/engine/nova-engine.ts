@@ -20,6 +20,8 @@ export class NovaEngine {
             callback()
         }
 
+        Input.initialize()
+
         window.requestAnimationFrame(NovaEngine.update)
     }
 

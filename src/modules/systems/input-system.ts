@@ -1,45 +1,31 @@
 import { NovaEngine } from '../engine/nova-engine';
+import { Input } from '../engine/core/input';
 import { System } from '../engine/ecs/system'
-import { Input } from '../components/input'
+import { PlayerInput } from '../components/player-input'
 import { Vector2 } from '../engine/core/math';
 
 export class InputSystem extends System {
-    keyState: Array<boolean> = []
-
-    constructor() {
-        super()
-
-        // Event listeners to capture WASD keys
-        window.addEventListener('keydown', (event) => {
-            this.keyState[event.key] = true;
-        });
-
-        window.addEventListener('keyup', (event) => {
-            this.keyState[event.key] = false;
-        });
-    }
-
     update(step: number) {
         const moveInput: Vector2 = Vector2.zero()
 
-        if (this.keyState['w'] || this.keyState['ArrowUp']) {
+        if (Input.getKeyDown('w') || Input.getKeyDown('ArrowUp')) {
             moveInput.y = -1;
         }
 
-        if (this.keyState['s'] || this.keyState['ArrowDown']) {
+        if (Input.getKeyDown('s') || Input.getKeyDown('ArrowDown')) {
             moveInput.y = 1;
         }
 
-        if (this.keyState['a'] || this.keyState['ArrowLeft']) {
+        if (Input.getKeyDown('a') || Input.getKeyDown('ArrowLeft')) {
             moveInput.x = -1;
         }
 
-        if (this.keyState['d'] || this.keyState['ArrowRight']) {
+        if (Input.getKeyDown('d') || Input.getKeyDown('ArrowRight')) {
             moveInput.x = 1;
         }
 
-        for (const entity of NovaEngine.world.queryEntities("Input")) {
-            const inputComponent = NovaEngine.world.getComponent<Input>(entity, "Input")!
+        for (const entity of NovaEngine.world.queryEntities("PlayerInput")) {
+            const inputComponent = NovaEngine.world.getComponent<PlayerInput>(entity, "PlayerInput")!
 
             inputComponent.moveDirection = moveInput.normalize()
         }

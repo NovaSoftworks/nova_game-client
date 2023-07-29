@@ -1,7 +1,7 @@
 import { Metrics } from './modules/metrics'
 import { NovaEngine } from './modules/engine/nova-engine'
 import { Circle } from './modules/components/circle'
-import { Input } from './modules/components/input'
+import { PlayerInput } from './modules/components/player-input'
 import { Transform } from './modules/components/transform'
 import { InputSystem } from './modules/systems/input-system'
 import { MoveSystem } from './modules/systems/move-system'
@@ -14,7 +14,7 @@ const UI = NovaEngine.UI
 function startGame() {
     NovaEngine.initialize({ width: 960, height: 540 }, () => {
         let player = NovaEngine.world.createEntity()
-        NovaEngine.world.addComponent(player, new Input())
+        NovaEngine.world.addComponent(player, new PlayerInput())
         NovaEngine.world.addComponent(player, new Transform(new Vector2(472, 262)))
         NovaEngine.world.addComponent(player, new Circle(16, 'orange'))
 
