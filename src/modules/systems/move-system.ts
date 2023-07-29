@@ -5,9 +5,9 @@ import { Transform } from '../components/transform'
 
 export class MoveSystem extends System {
     update(step: number) {
-        for (const entity of NovaEngine.queryEntities('Input', 'Transform')) {
-            const inputComponent = NovaEngine.getComponent<Input>(entity, 'Input')!
-            const transformComponent = NovaEngine.getComponent<Transform>(entity, 'Transform')!
+        for (const entity of NovaEngine.world.queryEntities('Input', 'Transform')) {
+            const inputComponent = NovaEngine.world.getComponent<Input>(entity, 'Input')!
+            const transformComponent = NovaEngine.world.getComponent<Transform>(entity, 'Transform')!
 
             const speed = 300
             const movement = inputComponent.moveDirection.multiply(speed * step)

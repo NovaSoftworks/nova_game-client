@@ -38,8 +38,8 @@ export class InputSystem extends System {
             moveInput.x = 1;
         }
 
-        for (const entity of NovaEngine.queryEntities("Input")) {
-            const inputComponent = NovaEngine.getComponent<Input>(entity, "Input")!
+        for (const entity of NovaEngine.world.queryEntities("Input")) {
+            const inputComponent = NovaEngine.world.getComponent<Input>(entity, "Input")!
 
             inputComponent.moveDirection = moveInput.normalize()
         }

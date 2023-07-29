@@ -1,18 +1,13 @@
-import { Time } from './core/time'
 import { Physics } from './core/physics'
 import { Rendering } from './core/rendering'
-import { ComponentManager } from './ecs/component-manager'
-import { EntityManager } from './ecs/entity-manager'
-import { SystemManager } from './ecs/system-manager'
+import { Time } from './core/time'
 import { UI } from './core/ui'
+import { World } from './ecs/world'
 import { Entity } from './ecs/entity'
 
 export class NovaEngine {
     static UI = UI
-    static createEntity = EntityManager.createEntity
-    static addComponent = ComponentManager.addComponent
-    static getComponent = ComponentManager.getComponent
-    static addSystem = SystemManager.addSystem
+    static world = World.current
 
     static start(options = { width: 1280, height: 720 }, callback) {
         init(options.width, options.height)
@@ -22,19 +17,6 @@ export class NovaEngine {
         }
 
         window.requestAnimationFrame(update);
-    }
-
-    static queryEntities(...componentTypes): Array<Entity> {
-        const entities = EntityManager.getAllEntities()
-
-        return entities.filter(entity => {
-            for (const componentType of componentTypes) {
-                if (!ComponentManager.getComponent(entity, componentType)) {
-                    return false;
-                }
-            }
-            return true;
-        });
     }
 }
 
@@ -63,13 +45,13 @@ function update() {
     accumulatedTime += dt
 
     while (accumulatedTime >= Physics.fixedTimeStep) { // comparing ms with ms
-        SystemManager.updateFixedSystems(Physics.fixedTimeStep / 1000)
+        NovaEngine.world.updateFixedSystems(Physics.fixedTimeStep / 1000)
         accumulatedTime -= Physics.fixedTimeStep;
         Physics.stepNumber++
     }
 
     Rendering.clearCanvas()
-    SystemManager.updateSystems(dt / 1000)
+    NovaEngine.world.updateSystems(dt / 1000)
 
     window.requestAnimationFrame(update)
 }

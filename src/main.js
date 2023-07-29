@@ -13,14 +13,14 @@ const UI = NovaEngine.UI
 
 function startGame() {
     NovaEngine.start({ width: 960, height: 540 }, () => {
-        let player = NovaEngine.createEntity()
-        NovaEngine.addComponent(player, new Input())
-        NovaEngine.addComponent(player, new Transform(new Vector2(472, 262)))
-        NovaEngine.addComponent(player, new Circle(16, 'orange'))
+        let player = NovaEngine.world.createEntity()
+        NovaEngine.world.addComponent(player, new Input())
+        NovaEngine.world.addComponent(player, new Transform(new Vector2(472, 262)))
+        NovaEngine.world.addComponent(player, new Circle(16, 'orange'))
 
-        NovaEngine.addSystem(new CircleRendererSystem())
-        NovaEngine.addSystem(new InputSystem())
-        NovaEngine.addSystem(new MoveSystem())
+        NovaEngine.world.addSystem(new CircleRendererSystem())
+        NovaEngine.world.addSystem(new InputSystem())
+        NovaEngine.world.addSystem(new MoveSystem())
     })
 
     setupUI()
