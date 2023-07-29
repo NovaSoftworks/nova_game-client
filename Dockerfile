@@ -9,7 +9,7 @@ COPY . /client
 RUN npm run build
 
 # Web server setup
-FROM nginx
+FROM nginx:stable-alpine3.17-slim
 COPY --from=build /client/dist /usr/share/nginx/html
 
 EXPOSE 80
