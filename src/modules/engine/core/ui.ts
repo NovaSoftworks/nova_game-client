@@ -101,7 +101,7 @@ export class UI {
         }
     }
 
-    static createPanel(parent, width, height, options) {
+    static createPanel(parent, width, height, options: any = {}) {
         const layout = options?.layout
         const anchor = options?.anchor
         const offsetX = options?.offsetX
@@ -166,13 +166,18 @@ export class UI {
     }
 
     static setScreen(screenName) {
+        const uiParent = Rendering.canvas.parentNode
+        if (!uiParent) {
+            throw new Error("No element to attach UI to. Please check the game canvas parent.")
+        }
+
         const screen = UI.screens.get(screenName)
         if (screen) {
             if (UI.currentScreen)
                 UI.currentScreen.parentNode.removeChild(UI.currentScreen)
 
             UI.currentScreen = screen
-            Rendering.canvas.parentNode.insertBefore(screen, Rendering.canvas)
+            uiParent.insertBefore(screen, Rendering.canvas)
 
             // After setting the screen, reposition the child elements using their anchor settings
             const elements = screen.querySelectorAll('.nova-ui__element')
