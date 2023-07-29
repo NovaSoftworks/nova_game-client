@@ -17,5 +17,9 @@ jobs:
       with:
         node-version: 20.x
         cache: npm
-    - run: npm run build
-    - run: npm test
+    - name: Install dependencies
+      run: npm install
+    - name: Build project
+      run: npm run build
+    - name: Test & Coverage
+      run: npm test --coverage
