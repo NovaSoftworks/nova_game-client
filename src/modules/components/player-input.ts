@@ -4,9 +4,9 @@ import { Component } from "../engine/ecs/component";
 export class PlayerInput extends Component {
     public name: string = "PlayerInput"
 
-    moveDirection: Vector2 = Vector2.zero()
+    moveDirection: Vector2
 
-    constructor(moveDirection: Vector2) {
+    constructor(moveDirection: Vector2 = Vector2.zero()) {
         super()
         this.moveDirection = moveDirection
     }
