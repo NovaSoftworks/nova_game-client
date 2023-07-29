@@ -1,3 +1,4 @@
+import { Input } from './core/input'
 import { Physics } from './core/physics'
 import { Rendering } from './core/rendering'
 import { Time } from './core/time'
@@ -8,29 +9,18 @@ export class NovaEngine {
     static UI = UI
     static world = World.current
 
-    static start(options = { width: 1280, height: 720 }, callback) {
-        NovaEngine.setupCanvas(options.width, options.height)
+    static initialize(options: any, callback: Function) {
+        const containerId = options.containerId || 'nova_container'
+        const canvasWidth = options.width || 1280
+        const canvasHeight = options.height || 720
 
-        if (typeof callback === 'function') {
+        Rendering.initialize(containerId, canvasWidth, canvasHeight)
+
+        if (callback) {
             callback()
         }
 
         window.requestAnimationFrame(NovaEngine.update)
-    }
-
-    private static setupCanvas(canvasWidth, canvasHeight) {
-        const canvas = document.createElement('canvas')
-        canvas.width = canvasWidth
-        canvas.height = canvasHeight
-
-        const gameCanvasContainer = document.getElementById("game-canvas-container")
-        if (gameCanvasContainer) {
-            gameCanvasContainer.appendChild(canvas)
-        } else {
-            throw new Error("Could not attach the game to #game-canvas-container.")
-        }
-
-        Rendering.setCanvas(canvas)
     }
 
     private static accumulatedTime = 0

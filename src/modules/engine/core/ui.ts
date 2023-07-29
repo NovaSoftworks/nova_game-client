@@ -12,7 +12,8 @@ export class UI {
 
     static printElementHierarchy(element, depth = 0) {
         const spaces = '  '.repeat(depth)
-        console.log(`${spaces}${element.className || element.tagName} (${element.id})`)
+        const className = element.className.split(" ").filter(c => { return c != "nova_ui-element" })
+        console.log(`${spaces}${className || element.tagName} (${element.id}) ${className == 'nova_ui-text' ? '-> ' + element.innerHTML : ''}`)
 
         const children = element.children
         for (const child of children) {
@@ -22,8 +23,8 @@ export class UI {
 
     static createElement(tag, parent, width, height, anchor: UIAnchor, offsetX = 0, offsetY = 0) {
         const element = document.createElement(tag)
-        element.id = `nova-ui__${UI.uiElementId++}`
-        element.classList.add('nova-ui__element')
+        element.id = `nova_ui-element-${UI.uiElementId++}`
+        element.classList.add('nova_ui-element')
 
         element.style.width = width ? `${width}px` : 'fit-content'
         if (height)
@@ -109,7 +110,7 @@ export class UI {
         const bgColor = options?.bgColor
 
         const panel = UI.createElement('div', parent, width, height, anchor, offsetX, offsetY)
-        panel.classList.add('nova-ui__panel')
+        panel.classList.add('nova_ui-panel')
         panel.style.backgroundColor = bgColor
 
         panel.layout = layout
@@ -133,7 +134,7 @@ export class UI {
         const fontCase = options?.case
 
         const text = UI.createElement('div', parent, null, null, anchor, offsetX, offsetY)
-        text.classList.add('nova-ui__text')
+        text.classList.add('nova_ui-text')
 
         text.style.fontFamily = fontFamily || 'Arial'
         text.style.fontSize = fontSize
@@ -156,7 +157,7 @@ export class UI {
 
     static createScreen(name, callback) {
         const screen = UI.createPanel(null, Rendering.canvas.width, Rendering.canvas.height)
-        screen.className = "nova-ui__screen"
+        screen.className = "nova_ui-screen"
         screen.style.position = 'absolute'
         screen.style.pointerEvents = 'none'
 

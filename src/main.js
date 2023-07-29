@@ -12,7 +12,7 @@ import { Vector2 } from './modules/engine/core/math'
 const UI = NovaEngine.UI
 
 function startGame() {
-    NovaEngine.start({ width: 960, height: 540 }, () => {
+    NovaEngine.initialize({ width: 960, height: 540 }, () => {
         let player = NovaEngine.world.createEntity()
         NovaEngine.world.addComponent(player, new Input())
         NovaEngine.world.addComponent(player, new Transform(new Vector2(472, 262)))
@@ -42,7 +42,7 @@ function play(e) {
         e.preventDefault()
 
     const mainSection = document.getElementsByClassName('main-section')[0]
-    const gameCanvasContainer = document.getElementById('game-canvas-container')
+    const gameCanvasContainer = document.getElementById('nova_container')
 
     mainSection.style.display = 'none'
     gameCanvasContainer.style.display = 'flex'
