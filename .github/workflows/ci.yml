@@ -9,7 +9,7 @@ on:
 env:
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-  DOCKER_REPOSITORY: $DOCKERHUB_USERNAME/nova-gameclient
+  DOCKER_REPOSITORY: ${{ env.DOCKER_USER }}/nova-gameclient
 
 jobs:
 
