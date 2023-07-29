@@ -1,8 +1,3 @@
-export class Circle {
-    radius: number
-    color: string
-}
-
 export class Vector2 {
     x: number
     y: number

@@ -9,3 +9,5 @@ export class Physics {
      */
     static stepNumber: number = 0
 }
+
+export default Physics

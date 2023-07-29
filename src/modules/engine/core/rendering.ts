@@ -3,11 +3,12 @@ export class Rendering {
     static ctx: CanvasRenderingContext2D
 
     static setCanvas(canvasElement: HTMLCanvasElement) {
+
         Rendering.canvas = canvasElement
 
         const ctx = canvasElement.getContext('2d')
 
-        if (ctx == undefined)
+        if (!ctx)
             throw new Error("Could not get the 2D game canvas context.")
         else
             Rendering.ctx = ctx
@@ -20,3 +21,5 @@ export class Rendering {
         Rendering.ctx.fillRect(0, 0, Rendering.canvas.width, Rendering.canvas.height)
     }
 }
+
+export default Rendering

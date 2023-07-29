@@ -60,7 +60,7 @@ function update() {
     Time.calculateDeltaTime()
     let dt = Time.deltaTime
 
-    accumulatedTime += (dt * 1000) // as dt is in seconds
+    accumulatedTime += dt
 
     while (accumulatedTime >= Physics.fixedTimeStep) { // comparing ms with ms
         SystemManager.updateFixedSystems(Physics.fixedTimeStep / 1000)
@@ -69,7 +69,7 @@ function update() {
     }
 
     Rendering.clearCanvas()
-    SystemManager.updateSystems(dt)
+    SystemManager.updateSystems(dt / 1000)
 
     window.requestAnimationFrame(update)
 }
