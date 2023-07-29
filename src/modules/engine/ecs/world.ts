@@ -9,7 +9,7 @@ export class World {
 
     private nextEntityId: number = 0
 
-    public static current = new World()
+    static current = new World()
 
     // ENTITIES
     createEntity(): Entity {
@@ -62,7 +62,12 @@ export class World {
 
     // SYSTEMS
     addSystem(system: System) {
-        this.systems.push(system)
+        if (!this.hasSystem(system))
+            this.systems.push(system)
+    }
+
+    hasSystem(system: System): boolean {
+        return this.systems.some((registeredSystem) => registeredSystem.constructor === system.constructor)
     }
 
     updateSystems(step: number) {
