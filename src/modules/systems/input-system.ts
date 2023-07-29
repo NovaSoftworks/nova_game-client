@@ -1,4 +1,3 @@
-import { NovaEngine } from '../engine/nova-engine';
 import { Input } from '../engine/core/input';
 import { System } from '../engine/ecs/system'
 import { PlayerInput } from '../components/player-input'
@@ -24,8 +23,8 @@ export class InputSystem extends System {
             moveInput.x = 1;
         }
 
-        for (const entity of NovaEngine.world.queryEntities("PlayerInput")) {
-            const inputComponent = NovaEngine.world.getComponent<PlayerInput>(entity, "PlayerInput")!
+        for (const entity of this.queryEntities("PlayerInput")) {
+            const inputComponent = this.getComponent<PlayerInput>(entity, "PlayerInput")!
 
             inputComponent.moveDirection = moveInput.normalize()
         }

@@ -1,4 +1,3 @@
-import { NovaEngine } from '../engine/nova-engine'
 import { System } from '../engine/ecs/system'
 import { Circle } from '../components/circle'
 import { Transform } from '../components/transform'
@@ -8,10 +7,10 @@ export class CircleRendererSystem extends System {
     update(step: number) {
         Rendering.clearCanvas()
 
-        const entities = NovaEngine.world.queryEntities('Circle', 'Transform')
+        const entities = this.queryEntities('Circle', 'Transform')
         for (const entity of entities) {
-            const circleComponent = NovaEngine.world.getComponent<Circle>(entity, 'Circle')!
-            const transformComponent = NovaEngine.world.getComponent<Transform>(entity, 'Transform')!
+            const circleComponent = this.getComponent<Circle>(entity, 'Circle')!
+            const transformComponent = this.getComponent<Transform>(entity, 'Transform')!
 
             this.drawCircle(circleComponent, transformComponent)
         }
