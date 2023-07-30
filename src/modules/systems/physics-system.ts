@@ -5,32 +5,33 @@ import { Vector2 } from '../engine/math'
 export class PhysicsSystem extends System {
     updateFixed(fixedStep: number) {
         const collidableEntities = this.queryEntities('Collider', 'Transform')
-        const movingEntities = this.queryEntities('Collider', 'Transform', 'Velocity')
+        const movingEntities = this.queryEntities('Transform', 'Velocity')
 
         for (const movingEntity of movingEntities) {
-            const collider = this.getComponent<Collider>(movingEntity, 'Collider')!
+            const collider = this.getComponent<Collider>(movingEntity, 'Collider')
             const transform = this.getComponent<Transform>(movingEntity, 'Transform')!
             const velocity = this.getComponent<Velocity>(movingEntity, 'Velocity')!
 
             const oldPosition = transform.position
             transform.position = transform.position.add(velocity.velocity.multiply(fixedStep))
 
+            if (collider) {
+                for (const otherEntity of collidableEntities) {
+                    if (movingEntity.id != otherEntity.id) {
 
-            for (const otherEntity of collidableEntities) {
-                if (movingEntity.id != otherEntity.id) {
+                        const otherCollider = this.getComponent<Collider>(otherEntity, 'Collider')!
+                        const otherTransform = this.getComponent<Transform>(otherEntity, 'Transform')!
 
-                    const otherCollider = this.getComponent<Collider>(otherEntity, 'Collider')!
-                    const otherTransform = this.getComponent<Transform>(otherEntity, 'Transform')!
+                        if (this.detectCollision(collider, transform, otherCollider, otherTransform)) {
+                            const collidingEntityDistance = this.distanceBetween(collider, transform, otherCollider, otherTransform)
 
-                    if (this.detectCollision(collider, transform, otherCollider, otherTransform)) {
-                        const collidingEntityDistance = this.distanceBetween(collider, transform, otherCollider, otherTransform)
+                            const direction = velocity.velocity.normalize()
+                            const adjust = direction.multiply(Math.max(collidingEntityDistance.magnitude() - 1, 0))
+                            transform.position = oldPosition.add(adjust)
 
-                        const direction = velocity.velocity.normalize()
-                        const adjust = direction.multiply(Math.max(collidingEntityDistance.magnitude() - 1, 0))
-                        transform.position = oldPosition.add(adjust)
-
-                        velocity.velocity = Vector2.zero()
-                        break
+                            velocity.velocity = Vector2.zero()
+                            break
+                        }
                     }
                 }
             }
