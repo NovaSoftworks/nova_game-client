@@ -22,4 +22,8 @@ export class UIPanel extends UIContainer {
 
         super.render()
     }
+
+    toString(): string {
+        return `Panel (#${this.domElement.id})`
+    }
 }

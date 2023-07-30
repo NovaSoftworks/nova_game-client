@@ -32,12 +32,12 @@ export abstract class UIContainer extends UIElement implements UIParent {
     }
 
     printHierarchy(indent: string = ''): void {
-        console.log(`${indent}UIContainer: ${this.domElement.className} (${this.domElement.id})`);
+        console.log(`${indent}${this.toString()}:`);
         for (const child of this.children) {
             if (child instanceof UIContainer) {
-                child.printHierarchy(indent + '--');
+                child.printHierarchy(indent + '  ');
             } else {
-                console.log(`${indent}--UIElement: ${child.domElement.className} (${child.domElement.id})`);
+                console.log(`${indent}  ${child.toString()}`);
             }
         }
     }

@@ -24,4 +24,8 @@ export class UIText extends UIElement {
 
         super.render()
     }
+
+    toString(): string {
+        return `Text (#${this.domElement.id} - "${this.text}")`
+    }
 }

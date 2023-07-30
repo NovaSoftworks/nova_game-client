@@ -18,4 +18,8 @@ export class UIScreen extends UIContainer {
         this.domElement.style.position = 'absolute'
         this.domElement.style.pointerEvents = 'none'
     }
+
+    toString(): string {
+        return `Screen (#${this.domElement.id})`
+    }
 }

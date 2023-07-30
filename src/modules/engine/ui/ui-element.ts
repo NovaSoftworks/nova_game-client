@@ -114,4 +114,6 @@ export abstract class UIElement implements DOMElement {
                 break
         }
     }
+
+    abstract toString(): string
 }
