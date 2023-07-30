@@ -1,6 +1,6 @@
 import { NovaEngine } from './modules/engine/nova-engine'
-import { Circle, Collider, Player, PlayerInput, Transform, Velocity } from './modules/components'
-import { CircleRendererSystem, ColliderRendererSystem, InputSystem, MoveSystem, PhysicsSystem } from './modules/systems'
+import { Circle, Collider, Nameplate, Player, PlayerInput, Transform, Velocity } from './modules/components'
+import { CircleRendererSystem, ColliderRendererSystem, InputSystem, MoveSystem, NameplateRendererSystem, PhysicsSystem } from './modules/systems'
 import { UI, UIAnchor, UIText } from './modules/engine/ui'
 import { Rectangle, Vector2 } from './modules/engine/math'
 
@@ -13,7 +13,8 @@ function startGame(playerName: string) {
         NovaEngine.world.addSystem(new CircleRendererSystem())
         NovaEngine.world.addSystem(new InputSystem())
         NovaEngine.world.addSystem(new MoveSystem())
-        NovaEngine.world.addSystem(new ColliderRendererSystem())
+        //NovaEngine.world.addSystem(new ColliderRendererSystem())
+        NovaEngine.world.addSystem(new NameplateRendererSystem())
     })
 
     // Create wall thickness
@@ -56,6 +57,7 @@ function spawnPlayer(playerName: string) {
     NovaEngine.world.addComponent(player, new Circle(16, 'orange'))
     NovaEngine.world.addComponent(player, new Collider(new Rectangle(32, 32)))
     NovaEngine.world.addComponent(player, new Velocity())
+    NovaEngine.world.addComponent(player, new Nameplate('orange'))
 }
 
 function createUI(playerName: string) {
