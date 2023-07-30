@@ -2,7 +2,7 @@ import { Input } from './core/input'
 import { Physics } from './core/physics'
 import { Rendering } from './core/rendering'
 import { Time } from './core/time'
-import { UI } from './core/ui'
+import { UI } from './ui'
 import { World } from './ecs/world'
 
 export class NovaEngine {
@@ -21,6 +21,7 @@ export class NovaEngine {
         }
 
         Input.initialize()
+        UI.initialize(Rendering.canvas)
 
         window.requestAnimationFrame(NovaEngine.update)
     }

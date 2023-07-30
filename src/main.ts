@@ -1,43 +1,34 @@
-import { Metrics } from './modules/metrics'
 import { NovaEngine } from './modules/engine/nova-engine'
 import { Circle } from './modules/components/circle'
 import { Player } from './modules/components/player'
 import { PlayerInput } from './modules/components/player-input'
 import { Transform } from './modules/components/transform'
 import { CircleRendererSystem } from './modules/systems/circle-renderer-system'
-import { DebugSystem } from './modules/systems/debug-system'
 import { InputSystem } from './modules/systems/input-system'
 import { MoveSystem } from './modules/systems/move-system'
 
-import { UIAnchor, UILayout, UITextCase } from './modules/engine/core/ui'
+import { UI, UIAnchor, UILayout, UIPanel, UIText } from './modules/engine/ui'
 import { Vector2 } from './modules/engine/core/math'
-const UI = NovaEngine.UI
 
 function startGame(playerName: string) {
     NovaEngine.initialize({ width: 960, height: 540 }, () => {
-        let player = NovaEngine.world.createEntity()
-        NovaEngine.world.addComponent(player, new Player(playerName))
-        NovaEngine.world.addComponent(player, new PlayerInput())
-        NovaEngine.world.addComponent(player, new Transform(new Vector2(472, 262)))
-        NovaEngine.world.addComponent(player, new Circle(16, 'orange'))
-
         NovaEngine.world.addSystem(new CircleRendererSystem())
         NovaEngine.world.addSystem(new InputSystem())
         NovaEngine.world.addSystem(new MoveSystem())
     })
 
-    setupUI()
-    //Metrics.show()
-}
+    let player = NovaEngine.world.createEntity()
+    NovaEngine.world.addComponent(player, new Player(playerName))
+    NovaEngine.world.addComponent(player, new PlayerInput())
+    NovaEngine.world.addComponent(player, new Transform(new Vector2(472, 262)))
+    NovaEngine.world.addComponent(player, new Circle(16, 'orange'))
 
-function setupUI() {
-    UI.createScreen('hud', (hud) => {
-        const nameText = UI.createText(hud, { anchor: UIAnchor.TOPLEFT, offsetX: 20, offsetY: 20, case: UITextCase.UPPER, color: 'white' }).setText('Marem')
-    })
-
+    const hud = UI.createScreen('hud')
+    const playerNameText = new UIText(hud, UIAnchor.TOPLEFT, 20, 20)
+    playerNameText.setText(playerName)
     UI.setScreen('hud')
 
-    UI.printHierarchy()
+    hud.printHierarchy()
 }
 
 function play(e) {
