@@ -75,7 +75,7 @@ export class UI {
                     const offsetY = parseInt(element.getAttribute('data-offset-y') || 0, 10)
                     UI.anchorElement(element, anchor, offsetX, offsetY)
                 }
-            });
+            })
         }
     }
  */

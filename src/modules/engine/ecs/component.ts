@@ -1,3 +1,3 @@
 export abstract class Component {
-    public abstract readonly name: string;
+    public abstract readonly name: string
 }

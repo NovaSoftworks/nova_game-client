@@ -1,6 +1,4 @@
-import { System } from "./system"
-import { Component } from "./component"
-import { Entity } from "./entity"
+import { Component, Entity, System } from "./"
 
 export class World {
     private entities: Map<number, Entity> = new Map<number, Entity>()

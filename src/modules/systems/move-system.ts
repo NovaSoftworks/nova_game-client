@@ -1,18 +1,16 @@
-import { System } from '../engine/ecs/system'
-import { PlayerInput } from '../components/player-input'
-import { Transform } from '../components/transform'
+import { System } from '../engine/ecs'
+import { PlayerInput, Velocity } from '../components'
 
 export class MoveSystem extends System {
-    update(step: number) {
-        for (const entity of this.queryEntities('PlayerInput', 'Transform')) {
+    updateFixed(step: number) {
+        for (const entity of this.queryEntities('PlayerInput', 'Velocity')) {
             const playerInput = this.getComponent<PlayerInput>(entity, 'PlayerInput')!
-            const transform = this.getComponent<Transform>(entity, 'Transform')!
+            const velocity = this.getComponent<Velocity>(entity, 'Velocity')!
 
             const speed = 300
-            const movement = playerInput.moveDirection.multiply(speed * step)
+            const movement = playerInput.moveDirection.multiply(speed)
 
-            transform.position.x += movement.x
-            transform.position.y += movement.y
+            velocity.velocity = movement
         }
     }
 }

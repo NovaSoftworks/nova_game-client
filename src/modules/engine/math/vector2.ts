@@ -11,7 +11,16 @@ export class Vector2 {
         return new Vector2(0, 0)
     }
 
-    multiply(n): Vector2 {
+    add(vector: Vector2): Vector2 {
+        return new Vector2(this.x + vector.x, this.y + vector.y)
+    }
+
+    subtract(vector: Vector2): Vector2 {
+        return new Vector2(this.x - vector.x, this.y - vector.y)
+    }
+
+
+    multiply(n: number): Vector2 {
         return new Vector2(this.x * n, this.y * n)
     }
 

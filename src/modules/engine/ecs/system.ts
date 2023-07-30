@@ -1,6 +1,5 @@
-import { NovaEngine } from "../nova-engine";
-import { Component } from "./component";
-import { Entity } from "./entity";
+import { NovaEngine } from "../nova-engine"
+import { Component, Entity } from "./"
 
 export abstract class System {
     update(step: number) {

@@ -1,14 +1,14 @@
-import { Time } from '../time'
+import { Time } from '../'
 
 // Mock the getCurrentTime method using perf_hooks
-const getCurrentTimeMock = jest.spyOn(performance, 'now');
+const getCurrentTimeMock = jest.spyOn(performance, 'now')
 
 describe('Time', () => {
     // Reset the mock before each test
     beforeEach(() => {
         getCurrentTimeMock.mockReset()
         Time.previousFrameTime = 0
-    });
+    })
 
     // Test the getCurrentTime method
     it('should return the current time', () => {

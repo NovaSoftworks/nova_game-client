@@ -1,4 +1,4 @@
-import { Component } from "../engine/ecs/component";
+import { Component } from "../engine/ecs"
 
 export class Player extends Component {
     public name: string = "Player"

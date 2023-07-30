@@ -1,28 +1,64 @@
 import { NovaEngine } from './modules/engine/nova-engine'
-import { Circle } from './modules/components/circle'
-import { Player } from './modules/components/player'
-import { PlayerInput } from './modules/components/player-input'
-import { Transform } from './modules/components/transform'
-import { CircleRendererSystem } from './modules/systems/circle-renderer-system'
-import { InputSystem } from './modules/systems/input-system'
-import { MoveSystem } from './modules/systems/move-system'
-
-import { UI, UIAnchor, UILayout, UIPanel, UIText } from './modules/engine/ui'
-import { Vector2 } from './modules/engine/core/math'
+import { Circle, Collider, Player, PlayerInput, Transform, Velocity } from './modules/components'
+import { CircleRendererSystem, ColliderRendererSystem, InputSystem, MoveSystem, PhysicsSystem } from './modules/systems'
+import { UI, UIAnchor, UIText } from './modules/engine/ui'
+import { Rectangle, Vector2 } from './modules/engine/math'
 
 function startGame(playerName: string) {
-    NovaEngine.initialize({ width: 960, height: 540 }, () => {
+    const gameWidth = 960
+    const gameHeight = 540
+
+    NovaEngine.initialize({ width: gameWidth, height: gameHeight }, () => {
+        NovaEngine.world.addSystem(new PhysicsSystem())
         NovaEngine.world.addSystem(new CircleRendererSystem())
         NovaEngine.world.addSystem(new InputSystem())
         NovaEngine.world.addSystem(new MoveSystem())
+        NovaEngine.world.addSystem(new ColliderRendererSystem())
     })
 
+    // Create wall thickness
+    spawnWalls(gameWidth, gameHeight)
+
+    spawnPlayer(playerName)
+
+    createUI(playerName)
+}
+
+function spawnWalls(gameWidth: number, gameHeight: number) {
+    let wallThickness = 8 // Modify as needed
+
+    // Create top wall
+    let topWall = NovaEngine.world.createEntity()
+    NovaEngine.world.addComponent(topWall, new Transform(new Vector2(0, 0)))
+    NovaEngine.world.addComponent(topWall, new Collider(new Rectangle(gameWidth, wallThickness)))
+
+    // Create bottom wall
+    let bottomWall = NovaEngine.world.createEntity()
+    NovaEngine.world.addComponent(bottomWall, new Transform(new Vector2(0, gameHeight - wallThickness)))
+    NovaEngine.world.addComponent(bottomWall, new Collider(new Rectangle(gameWidth, wallThickness)))
+
+    // Create left wall
+    let leftWall = NovaEngine.world.createEntity()
+    NovaEngine.world.addComponent(leftWall, new Transform(new Vector2(0, wallThickness)))
+    NovaEngine.world.addComponent(leftWall, new Collider(new Rectangle(wallThickness, gameHeight - 2 * wallThickness)))
+
+    // Create right wall
+    let rightWall = NovaEngine.world.createEntity()
+    NovaEngine.world.addComponent(rightWall, new Transform(new Vector2(gameWidth - wallThickness, wallThickness)))
+    NovaEngine.world.addComponent(rightWall, new Collider(new Rectangle(wallThickness, gameHeight - 2 * wallThickness)))
+}
+
+function spawnPlayer(playerName: string) {
     let player = NovaEngine.world.createEntity()
     NovaEngine.world.addComponent(player, new Player(playerName))
     NovaEngine.world.addComponent(player, new PlayerInput())
     NovaEngine.world.addComponent(player, new Transform(new Vector2(472, 262)))
     NovaEngine.world.addComponent(player, new Circle(16, 'orange'))
+    NovaEngine.world.addComponent(player, new Collider(new Rectangle(32, 32)))
+    NovaEngine.world.addComponent(player, new Velocity())
+}
 
+function createUI(playerName: string) {
     const hud = UI.createScreen('hud')
     const playerNameText = new UIText(hud, UIAnchor.TOPLEFT, 20, 20)
     playerNameText.setText(playerName)
@@ -30,6 +66,7 @@ function startGame(playerName: string) {
 
     hud.printHierarchy()
 }
+
 
 function play(e) {
     if (e)

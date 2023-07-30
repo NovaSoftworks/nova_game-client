@@ -1,4 +1,4 @@
-import { Input } from '../input'
+import { Input } from '../'
 
 // Mock the window event listeners
 let keyDownEventListener: ((event: KeyboardEvent) => void) | null = null

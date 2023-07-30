@@ -1,4 +1,4 @@
-import Rendering from '../rendering'
+import { Rendering } from '..'
 
 describe('Rendering', () => {
     // Mock canvas element and 2D context

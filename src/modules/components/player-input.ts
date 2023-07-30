@@ -1,5 +1,5 @@
-import { Vector2 } from "../engine/core/math";
-import { Component } from "../engine/ecs/component";
+import { Vector2 } from "../engine/math"
+import { Component } from "../engine/ecs"
 
 export class PlayerInput extends Component {
     public name: string = "PlayerInput"
