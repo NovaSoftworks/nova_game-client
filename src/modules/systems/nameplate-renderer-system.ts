@@ -25,11 +25,12 @@ export class NameplateRendererSystem extends System {
         ctx.textBaseline = 'middle'
 
         // Measure the width and height of the text
-        const textMetrics = ctx.measureText(name.toUpperCase())
+        const textWidth = ctx.measureText(name.toUpperCase()).width
+        const textHalfHeight = (parseInt(ctx.font) / 2)
 
         // Calculate the position where the text should start in order for it to be centered
-        let textStartX = transform.position.x + circle.radius - textMetrics.width / 2
-        let textStartY = transform.position.y - (parseInt(ctx.font) / 2) - 5
+        let textStartX = transform.position.x + circle.radius - textWidth / 2
+        let textStartY = transform.position.y - textHalfHeight - 5
 
         // Check if text goes outside of the canvas
         const canvasWidth = Rendering.canvas.width
@@ -37,12 +38,17 @@ export class NameplateRendererSystem extends System {
 
         if (textStartX < 0) {
             textStartX = 0
-        } else if (textStartX + textMetrics.width > canvasWidth) {
-            textStartX = canvasWidth - textMetrics.width
+        } else if (textStartX + textWidth > canvasWidth) {
+            textStartX = canvasWidth - textWidth
         }
 
-        if (textStartY < parseInt(ctx.font, 10)) { //ensure the text doesn't go beyond the top edge
-            textStartY = transform.position.y + circle.radius * 2 + (parseInt(ctx.font) / 2) + 5
+        if (textStartY < textHalfHeight) { //ensure the text doesn't go beyond the top edge
+            textStartY = Math.max(
+                transform.position.y + circle.radius * 2 + textHalfHeight + 5,
+                0 + textHalfHeight
+            )
+        } else if (textStartY > canvasHeight) {
+            textStartY = canvasHeight - textHalfHeight
         }
 
         // Render the text at the calculated position
