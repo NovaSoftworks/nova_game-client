@@ -1,6 +1,6 @@
-import { Rendering } from '..'
+import { RenderingUtils } from '..'
 
-describe('Rendering', () => {
+describe('RenderingUtils', () => {
     // Mock canvas element and 2D context
     let canvas: HTMLCanvasElement
     let ctx: CanvasRenderingContext2D
@@ -12,10 +12,10 @@ describe('Rendering', () => {
 
     // Test the setCanvas method
     it('should set the canvas and 2D context correctly', () => {
-        Rendering.setCanvas(canvas)
+        RenderingUtils.setCanvas(canvas)
 
-        expect(Rendering.canvas).toBe(canvas)
-        expect(Rendering.ctx).toBe(ctx)
+        expect(RenderingUtils.canvas).toBe(canvas)
+        expect(RenderingUtils.ctx).toBe(ctx)
     })
 
     // Test if clearCanvas method works with an invalid canvas context
@@ -25,7 +25,7 @@ describe('Rendering', () => {
 
         // Pass an invalid canvas without a 2D context
         expect(() => {
-            Rendering.setCanvas(invalidCanvas)
+            RenderingUtils.setCanvas(invalidCanvas)
         }).toThrowError("Could not get the 2D game canvas context.")
     })
 
@@ -35,8 +35,8 @@ describe('Rendering', () => {
         const fillRectSpy = jest.spyOn(ctx, 'fillRect')
 
         // Set the canvas and clear it
-        Rendering.setCanvas(canvas)
-        Rendering.clearCanvas()
+        RenderingUtils.setCanvas(canvas)
+        RenderingUtils.clearCanvas()
 
         // Assert that fillRect was called with the correct arguments
         expect(fillRectSpy).toHaveBeenCalledWith(0, 0, canvas.width, canvas.height)

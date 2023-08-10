@@ -1,5 +1,5 @@
 import { System } from '../engine/ecs'
-import { Rendering } from '../engine/core'
+import { RenderingUtils } from '../engine/utils'
 import { Circle, Nameplate, Player, Transform } from '../components'
 
 export class NameplateRendererSystem extends System {
@@ -19,7 +19,7 @@ export class NameplateRendererSystem extends System {
     }
 
     drawNameplate(name: string, circle: Circle, nameplate: Nameplate, transform: Transform) {
-        const ctx = Rendering.ctx
+        const ctx = RenderingUtils.ctx
         ctx.font = nameplate.font
         ctx.fillStyle = nameplate.color
         ctx.textBaseline = 'middle'
@@ -33,8 +33,8 @@ export class NameplateRendererSystem extends System {
         let textStartY = transform.position.y - textHalfHeight - 5
 
         // Check if text goes outside of the canvas
-        const canvasWidth = Rendering.canvas.width
-        const canvasHeight = Rendering.canvas.height
+        const canvasWidth = RenderingUtils.canvas.width
+        const canvasHeight = RenderingUtils.canvas.height
 
         if (textStartX < 0) {
             textStartX = 0

@@ -1,4 +1,4 @@
-export class Rendering {
+export class RenderingUtils {
     static canvas: HTMLCanvasElement
     static ctx: CanvasRenderingContext2D
 
@@ -14,27 +14,25 @@ export class Rendering {
             throw new Error(`Could not attach the game to #${containerId}.`)
         }
 
-        Rendering.setCanvas(canvas)
+        RenderingUtils.setCanvas(canvas)
     }
 
     static setCanvas(canvasElement: HTMLCanvasElement) {
 
-        Rendering.canvas = canvasElement
+        RenderingUtils.canvas = canvasElement
 
         const ctx = canvasElement.getContext('2d')
 
         if (!ctx)
             throw new Error("Could not get the 2D game canvas context.")
         else
-            Rendering.ctx = ctx
+            RenderingUtils.ctx = ctx
     }
 
     static clearCanvas() {
-        const ctx = Rendering.ctx
+        const ctx = RenderingUtils.ctx
 
-        Rendering.ctx.fillStyle = "#202027"
-        Rendering.ctx.fillRect(0, 0, Rendering.canvas.width, Rendering.canvas.height)
+        RenderingUtils.ctx.fillStyle = "#202027"
+        RenderingUtils.ctx.fillRect(0, 0, RenderingUtils.canvas.width, RenderingUtils.canvas.height)
     }
 }
-
-export default Rendering

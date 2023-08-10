@@ -1,5 +1,5 @@
 import { System } from '../engine/ecs'
-import { Rendering } from '../engine/core'
+import { RenderingUtils } from '../engine/utils'
 import { Circle, Transform } from '../components'
 
 export class CircleRendererSystem extends System {
@@ -15,16 +15,16 @@ export class CircleRendererSystem extends System {
     }
 
     drawCircle(circleComponent: Circle, transformComponent: Transform) {
-        Rendering.ctx.beginPath()
-        Rendering.ctx.arc(
+        RenderingUtils.ctx.beginPath()
+        RenderingUtils.ctx.arc(
             transformComponent.position.x + circleComponent.radius,
             transformComponent.position.y + circleComponent.radius,
             circleComponent.radius,
             0,
             2 * Math.PI
         )
-        Rendering.ctx.fillStyle = circleComponent.color
-        Rendering.ctx.fill()
-        Rendering.ctx.closePath()
+        RenderingUtils.ctx.fillStyle = circleComponent.color
+        RenderingUtils.ctx.fill()
+        RenderingUtils.ctx.closePath()
     }
 }

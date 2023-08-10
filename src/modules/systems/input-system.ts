@@ -1,4 +1,4 @@
-import { Input } from '../engine/core'
+import { InputUtils } from '../engine/utils'
 import { System } from '../engine/ecs'
 import { PlayerInput } from '../components'
 import { Vector2 } from '../engine/math'
@@ -7,19 +7,19 @@ export class InputSystem extends System {
     update(step: number) {
         const moveInput: Vector2 = Vector2.zero()
 
-        if (Input.getKeyDown('w') || Input.getKeyDown('ArrowUp')) {
+        if (InputUtils.getKeyDown('w') || InputUtils.getKeyDown('ArrowUp')) {
             moveInput.y = -1
         }
 
-        if (Input.getKeyDown('s') || Input.getKeyDown('ArrowDown')) {
+        if (InputUtils.getKeyDown('s') || InputUtils.getKeyDown('ArrowDown')) {
             moveInput.y = 1
         }
 
-        if (Input.getKeyDown('a') || Input.getKeyDown('ArrowLeft')) {
+        if (InputUtils.getKeyDown('a') || InputUtils.getKeyDown('ArrowLeft')) {
             moveInput.x = -1
         }
 
-        if (Input.getKeyDown('d') || Input.getKeyDown('ArrowRight')) {
+        if (InputUtils.getKeyDown('d') || InputUtils.getKeyDown('ArrowRight')) {
             moveInput.x = 1
         }
 

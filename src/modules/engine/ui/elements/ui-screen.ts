@@ -1,12 +1,12 @@
 
 import { UIContainer } from '../ui-container'
-import Rendering from '../../core/rendering'
+import { RenderingUtils } from '../../utils'
 
 export class UIScreen extends UIContainer {
     name: string
 
     constructor(name: string) {
-        super('div', null, Rendering.canvas.width, Rendering.canvas.height, null, null, null, null)
+        super('div', null, RenderingUtils.canvas.width, RenderingUtils.canvas.height, null, null, null, null)
         this.domElement.classList.add('nova_ui-screen')
 
         this.name = name

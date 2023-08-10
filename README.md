@@ -5,8 +5,8 @@ This projects requires the Dev Containers extensions for Vistual Studio Code. Fo
 
 Alternatively, you can configure your local environment with `Node 20 (including npm)`.
 
-## Running the app
-- Build the project with the `npm run start` command.
+## Running the app in dev mode
+- Run the project with the `npm run start` command.
 - Open the app at http://localhost:1234.
 
 Note: if running outside of the Dev Container, you will need to run `npm install` first.

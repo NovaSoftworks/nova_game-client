@@ -1,5 +1,5 @@
 import { System } from '../engine/ecs'
-import { Rendering } from '../engine/core'
+import { RenderingUtils } from '../engine/utils'
 import { Collider, Transform } from '../components'
 
 export class ColliderRendererSystem extends System {
@@ -16,15 +16,15 @@ export class ColliderRendererSystem extends System {
 
     drawCollider(collider: Collider, transformComponent: Transform) {
         const rectangle = collider.shape
-        Rendering.ctx.beginPath()
-        Rendering.ctx.rect(
+        RenderingUtils.ctx.beginPath()
+        RenderingUtils.ctx.rect(
             transformComponent.position.x,
             transformComponent.position.y,
             rectangle.width,
             rectangle.height
         )
-        Rendering.ctx.fillStyle = 'rgba(255,255,255,.3)'
-        Rendering.ctx.fill()
-        Rendering.ctx.closePath()
+        RenderingUtils.ctx.fillStyle = 'rgba(255,255,255,.3)'
+        RenderingUtils.ctx.fill()
+        RenderingUtils.ctx.closePath()
     }
 }

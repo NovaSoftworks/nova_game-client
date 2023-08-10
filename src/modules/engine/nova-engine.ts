@@ -1,6 +1,4 @@
-import { Input } from './core/input'
-import { Rendering } from './core/rendering'
-import { Time } from './core/time'
+import { InputUtils, RenderingUtils, TimeUtils } from './utils'
 import { UI } from './ui'
 import { World } from './ecs/world'
 
@@ -13,14 +11,14 @@ export class NovaEngine {
         const canvasWidth = options.width || 1280
         const canvasHeight = options.height || 720
 
-        Rendering.initialize(containerId, canvasWidth, canvasHeight)
+        RenderingUtils.initialize(containerId, canvasWidth, canvasHeight)
 
         if (callback) {
             callback()
         }
 
-        Input.initialize()
-        UI.initialize(Rendering.canvas)
+        InputUtils.initialize()
+        UI.initialize(RenderingUtils.canvas)
 
         window.requestAnimationFrame(NovaEngine.update)
     }
@@ -30,9 +28,9 @@ export class NovaEngine {
     static stepNumber: number = 0
 
     private static update() {
-        Rendering.clearCanvas()
-        Time.calculateDeltaTime()
-        let dt = Time.deltaTime
+        RenderingUtils.clearCanvas()
+        TimeUtils.calculateDeltaTime()
+        let dt = TimeUtils.deltaTime
 
         NovaEngine.accumulatedTime += dt
 

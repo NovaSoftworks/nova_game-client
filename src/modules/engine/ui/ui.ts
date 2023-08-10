@@ -1,4 +1,4 @@
-import Rendering from '../core/rendering'
+import { RenderingUtils } from '../utils'
 import { UIScreen } from './'
 
 export class UI {
@@ -34,7 +34,7 @@ export class UI {
                 currentScreenParentDomElement.removeChild(UI.currentScreen.domElement)
 
             UI.currentScreen = screen
-            UI.HTMLHook.insertBefore(screen.domElement, Rendering.canvas)
+            UI.HTMLHook.insertBefore(screen.domElement, RenderingUtils.canvas)
             screen.render()
         }
     }
