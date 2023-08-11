@@ -52,6 +52,12 @@ export class NetworkManager {
             case 'connection_ok':
                 this.networkId = parsedMessage.payload['network_id']
                 this.addRemoteClients(parsedMessage.payload['clients'])
+                this.sendMessage({
+                    type: 'ping',
+                    payload: {
+                        timestamp: Date.now()
+                    }
+                })
                 break;
             case 'client_connected':
                 this.addRemoteClient(parsedMessage.payload['network_id'])
