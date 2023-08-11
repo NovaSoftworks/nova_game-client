@@ -3,6 +3,7 @@ import { Circle, Collider, Nameplate, Player, PlayerInput, Transform, Velocity }
 import { CircleRendererSystem, ColliderRendererSystem, InputSystem, MoveSystem, NameplateRendererSystem, PhysicsSystem } from './modules/systems'
 import { UI, UIAnchor, UIText } from './modules/engine/ui'
 import { Rectangle, Vector2 } from './modules/engine/math'
+import { NetworkManager } from './modules/engine/networking/network-manager'
 
 function startGame(playerName: string) {
     const gameWidth = 960
@@ -69,7 +70,6 @@ function createUI(playerName: string) {
     hud.printHierarchy()
 }
 
-
 function play(e) {
     if (e)
         e.preventDefault()
@@ -93,10 +93,14 @@ function play(e) {
         return
     }
 
-    mainSection.style.display = 'none'
-    novaContainer.style.display = 'flex'
+    const networkManager: NetworkManager = new NetworkManager()
+    networkManager.connect('ws://localhost:8080', () => {
 
-    startGame(playerName)
+        mainSection.style.display = 'none'
+        novaContainer.style.display = 'flex'
+
+        startGame(playerName)
+    })
 }
 
 var playBtn = document.getElementById('play-btn')!
