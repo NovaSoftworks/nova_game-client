@@ -48,16 +48,16 @@ export class NetworkManager {
         const parsedMessage: NetworkMessage = JSON.parse(message)
         // TODO: sanity checks
 
-        switch (parsedMessage['type']) {
+        switch (parsedMessage.type) {
             case 'connection_ok':
-                this.networkId = parsedMessage['payload']['network_id']
-                this.addRemoteClients(parsedMessage['payload']['clients'])
+                this.networkId = parsedMessage.payload['network_id']
+                this.addRemoteClients(parsedMessage.payload['clients'])
                 break;
             case 'client_connected':
-                this.addRemoteClient(parsedMessage['payload']['network_id'])
+                this.addRemoteClient(parsedMessage.payload['network_id'])
                 break;
             case 'client_disconnected':
-                this.deleteRemoteClient(parsedMessage['payload']['network_id'])
+                this.deleteRemoteClient(parsedMessage.payload['network_id'])
                 break;
             default:
                 console.log(`Unhandled message received: ${message}`)
