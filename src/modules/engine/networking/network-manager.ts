@@ -4,9 +4,13 @@ export class NetworkManager {
     private socket: WebSocket | null = null
     private networkId: string | null = null
     private rtt?: number
+    private isAuthenticated: boolean
     private remoteClients: Map<string, RemoteClient>
 
+    private authCallback?: (success: boolean, error?: string) => void
+
     constructor() {
+        this.isAuthenticated = false
         this.remoteClients = new Map<string, RemoteClient>()
     }
 
@@ -37,12 +41,27 @@ export class NetworkManager {
         }
     }
 
+    authenticate(username: string, callback: (success: boolean, error?: string) => void) {
+        if (!this.socket) return
+
+        this.authCallback = callback
+
+        this.sendMessage({
+            type: 'authenticate',
+            payload: {
+                username: username
+            }
+        })
+    }
+
     private handleConnected() {
         console.info('Connected')
     }
 
     private handleDisconnected() {
         console.info('Disonnected')
+        alert('Lost connection to the server.')
+        location.reload()
     }
 
     private handleMessageReceived(message: any) {
@@ -68,6 +87,21 @@ export class NetworkManager {
                         timestamp: Date.now()
                     }
                 })
+                break
+            case 'authentication_ok':
+                this.isAuthenticated = true
+                if (this.authCallback) {
+                    this.authCallback(true)
+                    this.authCallback = undefined
+                }
+                break
+            case 'authentication_ko':
+                this.isAuthenticated = false
+                if (this.authCallback) {
+                    const error = parsedMessage.error || "Unknown reason"
+                    this.authCallback(false, error)
+                    this.authCallback = undefined
+                }
                 break
             case 'client_connected':
                 this.addRemoteClient(parsedMessage.payload['network_id'])

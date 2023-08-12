@@ -95,11 +95,15 @@ function play(e) {
 
     const networkManager: NetworkManager = new NetworkManager()
     networkManager.connect('ws://localhost:8080', () => {
-
-        mainSection.style.display = 'none'
-        novaContainer.style.display = 'flex'
-
-        startGame(playerName)
+        networkManager.authenticate(playerName, (success, error) => {
+            if (success) {
+                mainSection.style.display = 'none'
+                novaContainer.style.display = 'flex'
+                startGame(playerName)
+            } else {
+                alert(`Authentication failed: ${error}`)
+            }
+        })
     })
 }
 
