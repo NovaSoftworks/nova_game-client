@@ -3,6 +3,7 @@ import { NetworkMessage, RemoteClient } from './'
 export class NetworkManager {
     private socket: WebSocket | null = null
     private networkId: string | null = null
+    private rtt?: number
     private remoteClients: Map<string, RemoteClient>
 
     constructor() {
@@ -49,6 +50,15 @@ export class NetworkManager {
         // TODO: sanity checks
 
         switch (parsedMessage.type) {
+            case 'ping':
+                this.sendMessage({
+                    type: 'pong',
+                    payload: parsedMessage.payload
+                })
+                break
+            case 'pong':
+                this.rtt = Date.now() - parsedMessage.payload['timestamp']
+                break
             case 'connection_ok':
                 this.networkId = parsedMessage.payload['network_id']
                 this.addRemoteClients(parsedMessage.payload['clients'])
@@ -58,16 +68,16 @@ export class NetworkManager {
                         timestamp: Date.now()
                     }
                 })
-                break;
+                break
             case 'client_connected':
                 this.addRemoteClient(parsedMessage.payload['network_id'])
-                break;
+                break
             case 'client_disconnected':
                 this.deleteRemoteClient(parsedMessage.payload['network_id'])
-                break;
+                break
             default:
                 console.log(`Unhandled message received: ${message}`)
-                break;
+                break
         }
     }
 
