@@ -5,10 +5,12 @@ export class Collider extends Component {
     public name: string = "Collider"
 
     public shape: Rectangle
+    public layer?: string
     public colliding: boolean = false
 
-    constructor(rectangle: Rectangle) {
+    constructor(rectangle: Rectangle, layer?: string) {
         super()
         this.shape = rectangle
+        this.layer = layer
     }
 }
