@@ -106,13 +106,17 @@ export class NetworkManager {
                 break
             case 'client_connected':
                 const connectedClientId = parsedMessage.payload['network_id']
-                this.addRemoteClient(connectedClientId)
-                console.log(`Remote client connected: ${connectedClientId}`)
+                if (!this.isLocalClient(connectedClientId)) {
+                    this.addRemoteClient(connectedClientId)
+                    console.log(`Remote client connected: ${connectedClientId}`)
+                }
                 break
             case 'client_disconnected':
                 const disconnectedClientId = parsedMessage.payload['network_id']
-                this.deleteRemoteClient(disconnectedClientId)
-                console.log(`Remote client connected: ${disconnectedClientId}`)
+                if (!this.isLocalClient(disconnectedClientId)) {
+                    this.deleteRemoteClient(disconnectedClientId)
+                    console.log(`Remote client connected: ${disconnectedClientId}`)
+                }
                 break
             default:
                 console.log(`Unhandled message received: ${message}`)
