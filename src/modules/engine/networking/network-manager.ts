@@ -77,6 +77,7 @@ export class NetworkManager {
                 break
             case 'pong':
                 this.rtt = Date.now() - parsedMessage.payload['timestamp']
+                console.log(`Pong received. RTT is '${this.rtt}'`)
                 break
             case 'connection_ok':
                 this.networkId = parsedMessage.payload['network_id']
@@ -104,10 +105,14 @@ export class NetworkManager {
                 }
                 break
             case 'client_connected':
-                this.addRemoteClient(parsedMessage.payload['network_id'])
+                const connectedClientId = parsedMessage.payload['network_id']
+                this.addRemoteClient(connectedClientId)
+                console.log(`Remote client connected: ${connectedClientId}`)
                 break
             case 'client_disconnected':
-                this.deleteRemoteClient(parsedMessage.payload['network_id'])
+                const disconnectedClientId = parsedMessage.payload['network_id']
+                this.deleteRemoteClient(disconnectedClientId)
+                console.log(`Remote client connected: ${disconnectedClientId}`)
                 break
             default:
                 console.log(`Unhandled message received: ${message}`)
