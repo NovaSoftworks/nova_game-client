@@ -1,6 +1,6 @@
 import { NovaEngine } from './modules/engine/nova-engine'
 import { Circle, Collider, Nameplate, Player, PlayerInput, Transform, Velocity } from './modules/components'
-import { CircleRendererSystem, ColliderRendererSystem, InputSystem, MoveSystem, NameplateRendererSystem, PhysicsSystem } from './modules/systems'
+import { CircleRendererSystem, ColliderRendererSystem, InputSystem, MoveSystem, NameplateRendererSystem, PhysicsSystem, TickSystem } from './modules/systems'
 import { UIAnchor, UIText } from './modules/engine/ui'
 import { Rectangle, Vector2 } from './modules/engine/math'
 import { NetworkManager } from './modules/engine/networking/network-manager'
@@ -10,6 +10,7 @@ function startGame(playerName: string) {
     const gameHeight = 540
 
     NovaEngine.initialize({ width: gameWidth, height: gameHeight }, () => {
+        NovaEngine.world.createSystem(TickSystem)
         NovaEngine.world.createSystem(PhysicsSystem)
         NovaEngine.world.createSystem(CircleRendererSystem)
         NovaEngine.world.createSystem(InputSystem)
