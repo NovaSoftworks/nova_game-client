@@ -1,7 +1,7 @@
 import { NovaEngine } from './modules/engine/nova-engine'
 import { Circle, Collider, Nameplate, Player, PlayerInput, Transform, Velocity } from './modules/components'
 import { CircleRendererSystem, ColliderRendererSystem, InputSystem, MoveSystem, NameplateRendererSystem, PhysicsSystem } from './modules/systems'
-import { UI, UIAnchor, UIText } from './modules/engine/ui'
+import { UIAnchor, UIText } from './modules/engine/ui'
 import { Rectangle, Vector2 } from './modules/engine/math'
 import { NetworkManager } from './modules/engine/networking/network-manager'
 
@@ -62,12 +62,10 @@ function spawnPlayer(playerName: string) {
 }
 
 function createUI(playerName: string) {
-    const hud = UI.createScreen('hud')
+    const hud = NovaEngine.UI.createScreen('hud')
     const playerNameText = new UIText(hud, UIAnchor.TOPLEFT, 20, 20)
     playerNameText.setText(playerName)
-    UI.setScreen('hud')
-
-    hud.printHierarchy()
+    NovaEngine.UI.setScreen('hud')
 }
 
 function play(e) {
