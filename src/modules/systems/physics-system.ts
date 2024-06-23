@@ -4,13 +4,13 @@ import { Vector2 } from '../engine/math'
 
 export class PhysicsSystem extends System {
     updateFixed(fixedStep: number) {
-        const collidableEntities = this.queryEntities('Collider', 'Transform')
-        const movingEntities = this.queryEntities('Transform', 'Velocity')
+        const collidableEntities = this.world.queryEntities(Collider, Transform)
+        const movingEntities = this.world.queryEntities(Transform, Velocity)
 
         for (const movingEntity of movingEntities) {
-            const collider = this.getComponent<Collider>(movingEntity, 'Collider')
-            const transform = this.getComponent<Transform>(movingEntity, 'Transform')!
-            const velocity = this.getComponent<Velocity>(movingEntity, 'Velocity')!
+            const collider = this.world.getComponent(movingEntity, Collider)
+            const transform = this.world.getComponent(movingEntity, Transform)!
+            const velocity = this.world.getComponent(movingEntity, Velocity)!
 
             const oldPosition = transform.position
             transform.position = transform.position.add(velocity.velocity.multiply(fixedStep))
@@ -19,8 +19,8 @@ export class PhysicsSystem extends System {
                 for (const otherEntity of collidableEntities) {
                     if (movingEntity.id != otherEntity.id) {
 
-                        const otherCollider = this.getComponent<Collider>(otherEntity, 'Collider')!
-                        const otherTransform = this.getComponent<Transform>(otherEntity, 'Transform')!
+                        const otherCollider = this.world.getComponent(otherEntity, Collider)!
+                        const otherTransform = this.world.getComponent(otherEntity, Transform)!
 
                         if (this.detectCollision(collider, transform, otherCollider, otherTransform)) {
                             const collidingEntityDistance = this.distanceBetween(collider, transform, otherCollider, otherTransform)

@@ -10,12 +10,12 @@ function startGame(playerName: string) {
     const gameHeight = 540
 
     NovaEngine.initialize({ width: gameWidth, height: gameHeight }, () => {
-        NovaEngine.world.addSystem(new PhysicsSystem())
-        NovaEngine.world.addSystem(new CircleRendererSystem())
-        NovaEngine.world.addSystem(new InputSystem())
-        NovaEngine.world.addSystem(new MoveSystem())
-        //NovaEngine.world.addSystem(new ColliderRendererSystem())
-        NovaEngine.world.addSystem(new NameplateRendererSystem())
+        NovaEngine.world.createSystem(PhysicsSystem)
+        NovaEngine.world.createSystem(CircleRendererSystem)
+        NovaEngine.world.createSystem(InputSystem)
+        NovaEngine.world.createSystem(MoveSystem)
+        //NovaEngine.world.createSystem(ColliderRendererSystem)
+        NovaEngine.world.createSystem(NameplateRendererSystem)
     })
 
     // Create wall thickness

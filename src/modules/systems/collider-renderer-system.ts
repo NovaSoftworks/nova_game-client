@@ -4,11 +4,11 @@ import { Collider, Transform } from '../components'
 
 export class ColliderRendererSystem extends System {
     update(step: number) {
-        const collidableEntities = this.queryEntities('Collider', 'Transform')
+        const collidableEntities = this.world.queryEntities(Collider, Transform)
 
         for (const entity of collidableEntities) {
-            const collider = this.getComponent<Collider>(entity, 'Collider')!
-            const transform = this.getComponent<Transform>(entity, 'Transform')!
+            const collider = this.world.getComponent(entity, Collider)!
+            const transform = this.world.getComponent(entity, Transform)!
 
             this.drawCollider(collider, transform)
         }

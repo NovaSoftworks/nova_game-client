@@ -4,7 +4,7 @@ import { World } from './ecs/world'
 
 export class NovaEngine {
     static UI = UI
-    static world = World.current
+    static world = new World()
 
     static initialize(options: any, callback: Function) {
         const containerId = options.containerId || 'nova_container'

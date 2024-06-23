@@ -23,8 +23,8 @@ export class InputSystem extends System {
             moveInput.x = 1
         }
 
-        for (const entity of this.queryEntities("PlayerInput")) {
-            const inputComponent = this.getComponent<PlayerInput>(entity, "PlayerInput")!
+        for (const entity of this.world.queryEntities(PlayerInput)) {
+            const inputComponent = this.world.getComponent(entity, PlayerInput)!
 
             inputComponent.moveDirection = moveInput.normalize()
         }

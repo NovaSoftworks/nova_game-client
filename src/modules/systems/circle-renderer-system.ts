@@ -4,10 +4,10 @@ import { Circle, Transform } from '../components'
 
 export class CircleRendererSystem extends System {
     update(step: number) {
-        const entities = this.queryEntities('Circle', 'Transform')
+        const entities = this.world.queryEntities(Circle, Transform)
         for (const entity of entities) {
-            const circleComponent = this.getComponent<Circle>(entity, 'Circle')!
-            const transformComponent = this.getComponent<Transform>(entity, 'Transform')!
+            const circleComponent = this.world.getComponent(entity, Circle)!
+            const transformComponent = this.world.getComponent(entity, Transform)!
 
             this.drawCircle(circleComponent, transformComponent)
 

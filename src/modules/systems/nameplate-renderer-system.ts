@@ -4,13 +4,13 @@ import { Circle, Nameplate, Player, Transform } from '../components'
 
 export class NameplateRendererSystem extends System {
     update(step: number) {
-        const entities = this.queryEntities('Transform', 'Nameplate', 'Circle')
+        const entities = this.world.queryEntities(Transform, Nameplate, Circle)
         for (const entity of entities) {
-            const circle = this.getComponent<Circle>(entity, 'Circle')!
-            const nameplate = this.getComponent<Nameplate>(entity, 'Nameplate')!
-            const transform = this.getComponent<Transform>(entity, 'Transform')!
+            const circle = this.world.getComponent(entity, Circle)!
+            const nameplate = this.world.getComponent(entity, Nameplate)!
+            const transform = this.world.getComponent(entity, Transform)!
 
-            const player = this.getComponent<Player>(entity, 'Player')
+            const player = this.world.getComponent(entity, Player)
 
             if (player)
                 this.drawNameplate(player.username, circle, nameplate, transform)

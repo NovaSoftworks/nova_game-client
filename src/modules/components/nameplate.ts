@@ -1,8 +1,6 @@
 import { Component } from "../engine/ecs"
 
 export class Nameplate extends Component {
-    public name: string = "Nameplate"
-
     color: string
     font: string
 
