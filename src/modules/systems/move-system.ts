@@ -1,14 +1,15 @@
 import { System } from '../engine/ecs'
-import { PlayerInput, Velocity } from '../components'
+import { Input, Velocity } from '../components'
 
 export class MoveSystem extends System {
     updateFixed(step: number) {
-        for (const entity of this.world.queryEntities(PlayerInput, Velocity)) {
-            const playerInput = this.world.getComponent(entity, PlayerInput)!
+        const input = this.world.getSingleton(Input)!
+
+        for (const entity of this.world.queryEntities(Velocity)) {
             const velocity = this.world.getComponent(entity, Velocity)!
 
             const speed = 300
-            const movement = playerInput.moveDirection.multiply(speed)
+            const movement = input.moveDirection.multiply(speed)
 
             velocity.velocity = movement
         }

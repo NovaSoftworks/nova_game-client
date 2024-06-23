@@ -1,5 +1,5 @@
 import { NovaEngine } from './modules/engine/nova-engine'
-import { Circle, Collider, Nameplate, Player, PlayerInput, Transform, Velocity } from './modules/components'
+import { Circle, Collider, Nameplate, Player, Transform, Velocity } from './modules/components'
 import { CircleRendererSystem, ColliderRendererSystem, InputSystem, MoveSystem, NameplateRendererSystem, PhysicsSystem, TickSystem } from './modules/systems'
 import { UIAnchor, UIText } from './modules/engine/ui'
 import { Rectangle, Vector2 } from './modules/engine/math'
@@ -54,7 +54,6 @@ function spawnWalls(gameWidth: number, gameHeight: number) {
 function spawnPlayer(playerName: string) {
     let player = NovaEngine.world.createEntity()
     NovaEngine.world.addComponent(player, new Player(playerName))
-    NovaEngine.world.addComponent(player, new PlayerInput())
     NovaEngine.world.addComponent(player, new Transform(new Vector2(472, 262)))
     NovaEngine.world.addComponent(player, new Circle(16, 'orange'))
     NovaEngine.world.addComponent(player, new Collider(new Rectangle(32, 32)))

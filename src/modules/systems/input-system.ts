@@ -1,9 +1,16 @@
 import { InputUtils } from '../engine/utils'
 import { System } from '../engine/ecs'
-import { PlayerInput } from '../components'
+import { Input } from '../components'
 import { Vector2 } from '../engine/math'
 
 export class InputSystem extends System {
+    create() {
+        if (!this.world.getSingleton(Input)) {
+            const input = new Input()
+            this.world.addSingleton(input)
+        }
+    }
+
     update(step: number) {
         const moveInput: Vector2 = Vector2.zero()
 
@@ -23,10 +30,8 @@ export class InputSystem extends System {
             moveInput.x = 1
         }
 
-        for (const entity of this.world.queryEntities(PlayerInput)) {
-            const inputComponent = this.world.getComponent(entity, PlayerInput)!
-
-            inputComponent.moveDirection = moveInput.normalize()
-        }
+        const input = this.world.getSingleton(Input)
+        if (input)
+            input.moveDirection = moveInput.normalize()
     }
 }
