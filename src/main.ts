@@ -1,15 +1,23 @@
 import { NovaEngine } from './modules/engine/nova-engine'
-import { Circle, Collider, Nameplate, Player, Transform, Velocity } from './modules/components'
-import { CircleRendererSystem, ColliderRendererSystem, InputSystem, MoveSystem, NameplateRendererSystem, PhysicsSystem, TickSystem } from './modules/systems'
+import { Circle, Collider, Nameplate, Network, Player, Transform, Velocity } from './modules/components'
+import { CircleRendererSystem, ColliderRendererSystem, InputSystem, MoveSystem, NameplateRendererSystem, PhysicsSystem, PingSystem, TickSystem } from './modules/systems'
 import { UIAnchor, UIText } from './modules/engine/ui'
 import { Rectangle, Vector2 } from './modules/engine/math'
 import { NetworkManager } from './modules/engine/networking/network-manager'
 
-function startGame(playerName: string) {
+function startGame() {
     const gameWidth = 960
     const gameHeight = 540
 
+    const playerName = "Maremus" // TODO refactor
+
+    const networkManager: NetworkManager = new NetworkManager()
+    networkManager.connect('ws://localhost:8080', () => { })
+    const network = new Network(networkManager)
+
     NovaEngine.initialize({ width: gameWidth, height: gameHeight }, () => {
+        NovaEngine.world.addSingleton(network)
+        NovaEngine.world.createSystem(PingSystem)
         NovaEngine.world.createSystem(TickSystem)
         NovaEngine.world.createSystem(PhysicsSystem)
         NovaEngine.world.createSystem(CircleRendererSystem)
@@ -91,18 +99,10 @@ function play(e) {
         return
     }
 
-    const networkManager: NetworkManager = new NetworkManager()
-    networkManager.connect('ws://localhost:8080', () => {
-        networkManager.authenticate(playerName, (success, error) => {
-            if (success) {
-                mainSection.style.display = 'none'
-                novaContainer.style.display = 'flex'
-                startGame(playerName)
-            } else {
-                alert(`Authentication failed: ${error}`)
-            }
-        })
-    })
+    mainSection.style.display = 'none'
+    novaContainer.style.display = 'flex'
+
+    startGame()
 }
 
 var playBtn = document.getElementById('play-btn')!
