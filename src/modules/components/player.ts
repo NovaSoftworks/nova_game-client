@@ -1,7 +1,7 @@
 import { Component } from "../engine/ecs"
 
 export class Player extends Component {
-    username: string = 'John Doe'
+    username: string
 
     constructor(username: string) {
         super()
