@@ -22,7 +22,7 @@
     </div>
   </header>
   <div class="wrapper full-height">
-    <section class="main-section" id="">
+    <section class="main-section" id="" style="display: none;">
       <div class="call-to-action">
         <h1 class="title">Nova</h1>
         <span class="subtitle">Real-time multiplayer server-scaling simulation</span>
@@ -32,7 +32,24 @@
         </div>
       </div>
     </section>
-    <section id="nova_container" class="game-section" style="display: none;">
+    <section class="game-section" style="display: flex;">
+      <div id="nova_container" class="nova-ui__viewport">
+        <div id="nova-ui__login-screen" class="nova-ui__screen nova-ui__screen--centered">
+          <div class="nova-ui__login-block">
+            <div>
+              <input type="text" placeholder="Username" id="nova-ui__username-input">
+              <button class="btn" id="nova-ui__login-button">Play</button>
+            </div>
+            <span class="error" id="nova-ui__login-error"></span>
+          </div>
+        </div>
+        <div id="nova-ui__loading-screen" class="nova-ui__screen">Loading...</div>
+        <div id="nova-ui__hud-screen" class="nova-ui__screen">
+          <span id="nova-ui__username-text"></span>
+        </div>
+        <div id="nova-ui__disconnected-screen" class="nova-ui__screen">Disconnected.</div>
+        <canvas id="nova_render" width="960" height="540"></canvas>
+      </div>
     </section>
   </div>
   <footer class="main-footer">

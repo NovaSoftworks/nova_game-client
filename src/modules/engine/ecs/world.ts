@@ -1,12 +1,33 @@
-import { Component, Entity, System } from "./"
+import { TimeUtils } from "../utils"
+import { Component, Entity, Event, EventType, System } from "./"
 
 export class World {
     private entities: Map<number, Entity> = new Map<number, Entity>()
     private components: Map<Function, Component[]> = new Map<Function, Component[]>()
     private singletons: Map<Function, Component> = new Map<Function, Component>()
     private systems: System[] = []
+    private pastEvents: Event[] = []
+    private eventQueue: Event[] = []
 
     private nextEntityId: number = 0
+
+    // UPDATE LOOP
+    private accumulatedTime = 0
+    private fixedTimeStep: number = 10 // ms
+
+    update() {
+        let dt = TimeUtils.deltaTime
+
+        this.accumulatedTime += dt
+
+        this.clearEventQueue()
+        while (this.accumulatedTime >= this.fixedTimeStep) { // comparing ms with ms
+            this.updateFixedSystems(this.fixedTimeStep / 1000)
+            this.accumulatedTime -= this.fixedTimeStep
+        }
+        this.updateSystems(dt / 1000)
+    }
+
 
     // ENTITIES
     createEntity(): Entity {
@@ -107,14 +128,31 @@ export class World {
 
     updateSystems(step: number) {
         for (const system of this.systems) {
-            system.update(step)
+            if (system.enabled)
+                system.update(step)
         }
     }
 
     updateFixedSystems(fixedStep: number) {
         for (const system of this.systems) {
-            system.updateFixed(fixedStep)
+            if (system.enabled)
+                system.updateFixed(fixedStep)
         }
+    }
+
+
+    // EVENTS
+    publishEvent(e: Event) {
+        this.eventQueue.push(e)
+    }
+
+    getEventsByType(type: EventType) {
+        return this.pastEvents.filter(event => event.type === type)
+    }
+
+    clearEventQueue() {
+        this.pastEvents = this.eventQueue
+        this.eventQueue = []
     }
 
 

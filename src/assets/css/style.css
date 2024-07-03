@@ -137,18 +137,22 @@ body {
 input {
     outline: none;
     background: none;
-    border: 1px solid #202027;
+    border: 1px solid white;
     border-radius: .5rem;
 
-    background-color: #202027;
+    background-color: white;
 
     font-size: 1rem;
     padding: .5em;
-    color: inherit;
+    color: #202027;
 }
 
 input:focus {
     border-color: #336EC6;
+}
+
+.error {
+    color: #dd0044;
 }
 
 .game-section {
@@ -159,29 +163,39 @@ input:focus {
     flex-direction: column;
 }
 
-.main-section {
-    display: flex;
-    align-items: stretch;
-    justify-content: space-between;
-    flex-grow: 1;
+.nova-ui__viewport {
+    position: relative;
+
 }
 
-.main-section .call-to-action {
+.nova-ui__screen {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    display: none;
+}
+
+.nova-ui__screen--centered {
+    align-items: center;
+    justify-content: center;
+}
+
+.nova-ui__screen--visible {
+    display: flex;
+}
+
+.nova-ui__login-block {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    padding: 0 512px 128px 0;
-
-    align-self: center;
+    align-items: center;
+    justify-content: center;
 }
 
-.play-form {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
+.nova-ui__screen .error {}
 
-.play-form input {
-    flex: 1;
-    margin-right: 1em;
+.nova-ui__screen .text {
+    user-select: none;
 }
