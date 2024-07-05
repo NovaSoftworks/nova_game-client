@@ -128,15 +128,13 @@ export class World {
 
     updateSystems(step: number) {
         for (const system of this.systems) {
-            if (system.enabled)
-                system.update(step)
+            system.update(step)
         }
     }
 
     updateFixedSystems(fixedStep: number) {
         for (const system of this.systems) {
-            if (system.enabled)
-                system.updateFixed(fixedStep)
+            system.updateFixed(fixedStep)
         }
     }
 
