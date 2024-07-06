@@ -1,13 +1,17 @@
+import { NetworkManager, NetworkMessage } from "../networking"
+
 export class ConnectionUtils {
-    static sendMessage(socket: WebSocket, message: NetworkMessage) {
-        if (socket && socket.readyState === WebSocket.OPEN) {
-            socket.send(JSON.stringify(message))
+    private static networkManager: NetworkManager
+
+    static initialize(networkManager: NetworkManager) {
+        ConnectionUtils.networkManager = networkManager
+    }
+
+    static sendMessage(message: NetworkMessage) {
+        if (this.networkManager) {
+            this.networkManager.sendMessage(message)
+        } else {
+            console.error('You must initialize ConnectionUtils with a NetworkManager to send messages.')
         }
     }
-}
-
-export interface NetworkMessage {
-    type: string,
-    payload?: any
-    error?: string
 }
