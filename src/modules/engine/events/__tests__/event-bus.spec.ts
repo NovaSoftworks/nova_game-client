@@ -103,6 +103,6 @@ describe('NovaEventBus', () => {
             eventBus.subscribe(TestEvent, listener)
             eventBus.publish(new TestEvent('test'))
             expect(listener).toHaveBeenCalledTimes(1)
-        });
-    });
+        })
+    })
 })

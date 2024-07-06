@@ -1,6 +1,7 @@
 import { NetworkMessage } from '.'
+import { NovaEvent } from '../events';
 
-export interface NetworkEvent { }
+export interface NetworkEvent extends NovaEvent { }
 
 export class NetworkMessageEvent implements NetworkEvent, NetworkMessage {
     constructor(public type: string, public payload?: any, public error?: string) { }

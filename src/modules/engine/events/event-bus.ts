@@ -23,8 +23,8 @@ export class NovaEventBus<E extends NovaEvent> {
         }
     }
 
-    publish(event: E) {
-        const eventconstructor = event.constructor as NovaEventConstructor<E>
+    publish<T extends E>(event: T) {
+        const eventconstructor = event.constructor as NovaEventConstructor<T>
         const listeners = this.listeners.get(eventconstructor)
         if (listeners) {
             listeners.forEach((listener) => listener(event))
