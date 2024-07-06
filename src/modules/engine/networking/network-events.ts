@@ -1,4 +1,4 @@
-import { NetworkMessage } from './'
+import { NetworkMessage } from '.'
 
 export interface NetworkEvent { }
 
