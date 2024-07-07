@@ -13,9 +13,7 @@ export class World {
     private accumulatedTime = 0
     private fixedTimeStep: number = 10 // ms
 
-    update() {
-        let dt = TimeUtils.deltaTime
-
+    update(dt: number) {
         this.accumulatedTime += dt
 
         while (this.accumulatedTime >= this.fixedTimeStep) { // comparing ms with ms

@@ -23,6 +23,7 @@ export class LoginScreen extends NovaScreen {
     exit(): void {
         this.loginButton.removeEventListener('mouseup', this.loginButtonClickHandler)
         this.eventBus.unsubscribe(AuthenticationFailureEvent, this.authenticationFailureHandler)
+        this.eventBus.unsubscribe(ConnectionErrorEvent, this.connectionErrorHandler)
     }
 
     disableLoginButton() {

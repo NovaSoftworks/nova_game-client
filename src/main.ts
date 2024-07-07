@@ -1,5 +1,6 @@
 import { NovaEventBus } from './modules/engine/events'
 import { AuthenticationManager, NetworkManager } from './modules/engine/networking'
+import { ConnectionUtils, InputUtils, RenderingUtils, TimeUtils } from './modules/engine/utils'
 import { GameManager } from './modules/game'
 
 const eventBus = new NovaEventBus()
@@ -10,18 +11,20 @@ const authenticationManager = new AuthenticationManager(networkManager)
 const gameManager = new GameManager(eventBus)
 
 
-// const world = new World()
+InputUtils.initialize()
+ConnectionUtils.initialize(networkManager, authenticationManager)
+RenderingUtils.initialize('nova_render')
 
-// RenderingUtils.initialize('nova_render')
-// InputUtils.initialize()
+function gameLoop() {
+    RenderingUtils.clearCanvas()
+    TimeUtils.calculateDeltaTime()
 
-// world.createSystem(TickSystem)
-// world.createSystem(PhysicsSystem)
-// world.createSystem(CircleRendererSystem)
-// world.createSystem(InputSystem)
-// world.createSystem(MoveSystem)
-// // world.createSystem(ColliderRendererSystem)
-// world.createSystem(NameplateRendererSystem)
+    gameManager.update()
+
+    requestAnimationFrame(gameLoop)
+}
+
+requestAnimationFrame(gameLoop)
 
 // const player = world.createEntity()
 

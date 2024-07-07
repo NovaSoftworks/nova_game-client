@@ -1,5 +1,5 @@
-import { System } from '../engine/ecs'
-import { RenderingUtils } from '../engine/utils'
+import { System } from '../../engine/ecs'
+import { RenderingUtils } from '../../engine/utils'
 import { Circle, Transform } from '../components'
 
 export class CircleRendererSystem extends System {

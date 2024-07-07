@@ -1,5 +1,5 @@
-import { System } from '../engine/ecs'
-import { RenderingUtils } from '../engine/utils'
+import { System } from '../../engine/ecs'
+import { RenderingUtils } from '../../engine/utils'
 import { Collider, Transform } from '../components'
 
 export class ColliderRendererSystem extends System {

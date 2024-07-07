@@ -1,6 +1,6 @@
 import { NovaEventBus } from '../engine/events'
 import { AuthenticationFailureEvent, AuthenticationRequestEvent, AuthenticationSuccessEvent, ConnectionClosedEvent, ConnectionCloseRequestEvent, ConnectionOpenedEvent, ConnectionOpenRequestEvent } from '../engine/networking'
-import { LogUtils } from '../engine/utils'
+import { LogUtils, TimeUtils } from '../engine/utils'
 import { DisconnectedScreen, GameContext, LoginScreen, NovaScreen, PlayingScreen } from './'
 import { LoginButtonClickedEvent, ReconnectButtonClickedEvent } from './events'
 
@@ -22,6 +22,10 @@ export class GameManager {
         eventBus.subscribe(ConnectionClosedEvent, this.onConnectionClosed.bind(this))
 
         eventBus.subscribe(ReconnectButtonClickedEvent, this.onReconnectButtonClicked.bind(this))
+    }
+
+    update() {
+        this.gameContext.world?.update(TimeUtils.deltaTime)
     }
 
     setScreen(screen: NovaScreen) {

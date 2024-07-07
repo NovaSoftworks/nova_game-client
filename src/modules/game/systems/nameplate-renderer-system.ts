@@ -1,6 +1,6 @@
-import { System } from '../engine/ecs'
-import { RenderingUtils } from '../engine/utils'
-import { Circle, Nameplate, Transform } from '../components'
+import { System } from '../../engine/ecs'
+import { RenderingUtils } from '../../engine/utils'
+import { Circle, Connection, Nameplate, Transform } from '../components'
 
 export class NameplateRendererSystem extends System {
     update(step: number) {
@@ -10,12 +10,12 @@ export class NameplateRendererSystem extends System {
             const nameplate = this.world.getComponent(entity, Nameplate)!
             const transform = this.world.getComponent(entity, Transform)!
 
-            //const player = this.world.getComponent(entity, Player)
+            const connection = this.world.getComponent(entity, Connection)
 
-            //if (player && player.username)
-            //    this.drawNameplate(player.username, circle, nameplate, transform)
-            //else
-            this.drawNameplate('???', circle, nameplate, transform)
+            if (connection)
+                this.drawNameplate(connection.username, circle, nameplate, transform)
+            else
+                this.drawNameplate('???', circle, nameplate, transform)
         }
     }
 

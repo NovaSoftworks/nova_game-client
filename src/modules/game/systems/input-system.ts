@@ -1,7 +1,7 @@
-import { InputUtils } from '../engine/utils'
-import { System } from '../engine/ecs'
+import { InputUtils } from '../../engine/utils'
+import { System } from '../../engine/ecs'
 import { Input } from '../components'
-import { Vector2 } from '../engine/math'
+import { Vector2 } from '../../engine/math'
 
 export class InputSystem extends System {
     create() {
