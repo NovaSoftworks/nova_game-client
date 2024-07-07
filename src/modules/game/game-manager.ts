@@ -1,7 +1,8 @@
 import { NovaEventBus } from '../engine/events'
-import { AuthenticationRequestEvent, AuthenticationSuccessEvent, ConnectionClosedEvent, ConnectionOpenedEvent, ConnectionRequestEvent } from '../engine/networking'
+import { AuthenticationFailureEvent, AuthenticationRequestEvent, AuthenticationSuccessEvent, ConnectionClosedEvent, ConnectionCloseRequestEvent, ConnectionOpenedEvent, ConnectionOpenRequestEvent } from '../engine/networking'
+import { LogUtils } from '../engine/utils'
 import { DisconnectedScreen, GameContext, LoginScreen, NovaScreen, PlayingScreen } from './'
-import { LoginButtonClickedEvent } from './events'
+import { LoginButtonClickedEvent, ReconnectButtonClickedEvent } from './events'
 
 export class GameManager {
     private currentScreen: NovaScreen
@@ -17,7 +18,10 @@ export class GameManager {
         eventBus.subscribe(LoginButtonClickedEvent, this.onLoginButtonClicked.bind(this))
         eventBus.subscribe(ConnectionOpenedEvent, this.onConnectionOpened.bind(this))
         eventBus.subscribe(AuthenticationSuccessEvent, this.onAuthenticationSuccess.bind(this))
+        eventBus.subscribe(AuthenticationFailureEvent, this.onAuthenticationFailure.bind(this))
         eventBus.subscribe(ConnectionClosedEvent, this.onConnectionClosed.bind(this))
+
+        eventBus.subscribe(ReconnectButtonClickedEvent, this.onReconnectButtonClicked.bind(this))
     }
 
     setScreen(screen: NovaScreen) {
@@ -29,12 +33,13 @@ export class GameManager {
     }
 
     onLoginButtonClicked(event: LoginButtonClickedEvent) {
+        LogUtils.info('GameManager', `User requested login: '${event.username}'`)
         this.gameContext.username = event.username
-        this.eventBus.publish(new ConnectionRequestEvent('ws://localhost:8080'))
+        this.eventBus.publish(new ConnectionOpenRequestEvent('ws://localhost:8080'))
     }
 
     onConnectionOpened() {
-        if (this.gameContext.username)
+        if (this.gameContext.username != null)
             this.eventBus.publish(new AuthenticationRequestEvent(this.gameContext.username))
     }
 
@@ -43,7 +48,16 @@ export class GameManager {
         this.setScreen(this.playingScreen)
     }
 
+    onAuthenticationFailure(event: AuthenticationFailureEvent) {
+        this.eventBus.publish(new ConnectionCloseRequestEvent())
+    }
+
     onConnectionClosed(event: ConnectionClosedEvent) {
-        this.setScreen(this.disconnectedScreen)
+        if (this.currentScreen == this.playingScreen)
+            this.setScreen(this.disconnectedScreen)
+    }
+
+    onReconnectButtonClicked() {
+        this.setScreen(this.loginScreen)
     }
 }

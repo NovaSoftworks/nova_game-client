@@ -1,4 +1,4 @@
-import { ConnectionClosedEvent, ConnectionErrorEvent, ConnectionOpenedEvent, ConnectionRequestEvent, NetworkHandler, NetworkMessage, NetworkMessageEvent, NetworkMiddleware } from './'
+import { ConnectionClosedEvent, ConnectionErrorEvent, ConnectionOpenedEvent, ConnectionCloseRequestEvent, ConnectionOpenRequestEvent, NetworkHandler, NetworkMessage, NetworkMessageEvent, NetworkMiddleware } from './'
 import { NovaEventBus } from '../events'
 import { LogUtils } from '../utils'
 
@@ -8,10 +8,13 @@ export class NetworkManager {
     middlewares: NetworkMiddleware[] = []
 
     constructor(public eventBus: NovaEventBus) {
-        this.eventBus.subscribe(ConnectionRequestEvent, this.onConnectionRequest.bind(this))
+        this.eventBus.subscribe(ConnectionOpenRequestEvent, this.onConnectionOpenRequest.bind(this))
+        this.eventBus.subscribe(ConnectionCloseRequestEvent, this.onConnectionCloseRequest.bind(this))
     }
 
-    onConnectionRequest(event: ConnectionRequestEvent) {
+    onConnectionOpenRequest(event: ConnectionOpenRequestEvent) {
+        LogUtils.info('NetworkManager', `Creating connection to the server: '${event.url}'`)
+
         const socket = new WebSocket(event.url)
         this.socket = socket
 
@@ -43,8 +46,12 @@ export class NetworkManager {
 
         socket.onerror = (error) => {
             LogUtils.info('NetworkManager', `Connection error`)
-            this.eventBus.publish(new ConnectionErrorEvent(`${error}`))
+            this.eventBus.publish(new ConnectionErrorEvent())
         }
+    }
+
+    onConnectionCloseRequest() {
+        this.socket?.close()
     }
 
     addHandler(handler: NetworkHandler) {

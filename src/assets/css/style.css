@@ -134,6 +134,11 @@ body {
     background-color: #2180d8;
 }
 
+.btn[disabled] {
+    background-color: #7AA7FF;
+    cursor: wait;
+}
+
 input {
     outline: none;
     background: none;

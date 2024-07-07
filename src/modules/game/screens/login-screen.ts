@@ -1,12 +1,13 @@
-import { AuthenticationFailureEvent } from "../../engine/networking";
-import { LoginButtonClickedEvent } from "../events";
-import { NovaScreen } from "./nova-screen";
+import { AuthenticationFailureEvent, ConnectionErrorEvent } from "../../engine/networking"
+import { LoginButtonClickedEvent } from "../events"
+import { NovaScreen } from "./nova-screen"
 
 export class LoginScreen extends NovaScreen {
     protected screen: HTMLElement = document.getElementById('nova-ui__login-screen')!
 
     private loginButtonClickHandler = this.onLoginButtonClicked.bind(this)
     private authenticationFailureHandler = this.onAuthenticationFailure.bind(this)
+    private connectionErrorHandler = this.onConnectionError.bind(this)
 
     private usernameInput = <HTMLInputElement>document.getElementById('nova-ui__username-input')!
     private loginButton = <HTMLButtonElement>document.getElementById('nova-ui__login-button')!
@@ -15,6 +16,8 @@ export class LoginScreen extends NovaScreen {
     enter(): void {
         this.loginButton.addEventListener('mouseup', this.loginButtonClickHandler)
         this.eventBus.subscribe(AuthenticationFailureEvent, this.authenticationFailureHandler)
+        this.eventBus.subscribe(ConnectionErrorEvent, this.connectionErrorHandler)
+        this.enableLoginButton()
     }
 
     exit(): void {
@@ -22,12 +25,27 @@ export class LoginScreen extends NovaScreen {
         this.eventBus.unsubscribe(AuthenticationFailureEvent, this.authenticationFailureHandler)
     }
 
+    disableLoginButton() {
+        this.loginButton.disabled = true
+    }
+
+    enableLoginButton() {
+        this.loginButton.disabled = false
+    }
+
     onLoginButtonClicked() {
+        this.disableLoginButton()
         const username = this.usernameInput.value
         this.eventBus.publish(new LoginButtonClickedEvent(username))
     }
 
-    onAuthenticationFailure(error: AuthenticationFailureEvent) {
-        this.loginErrorText.innerHTML = error.message
+    onAuthenticationFailure(event: AuthenticationFailureEvent) {
+        this.loginErrorText.innerHTML = event.message
+        this.enableLoginButton()
+    }
+
+    onConnectionError(event: ConnectionErrorEvent) {
+        this.loginErrorText.innerHTML = 'Error connecting to the server.'
+        this.enableLoginButton()
     }
 }
