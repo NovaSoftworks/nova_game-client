@@ -1,6 +1,6 @@
-import { System } from '../engine/ecs'
+import { System } from '../../engine/ecs'
 import { Collider, Transform, Velocity } from '../components'
-import { Vector2 } from '../engine/math'
+import { Vector2 } from '../../engine/math'
 
 export class PhysicsSystem extends System {
     updateFixed(fixedStep: number) {

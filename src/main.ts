@@ -1,22 +1,13 @@
-import { Circle, Collider, Nameplate, Transform, Velocity } from './modules/components'
-import { World } from './modules/engine/ecs'
-import { Rectangle, Vector2 } from './modules/engine/math'
-import { InputUtils, RenderingUtils, TimeUtils } from './modules/engine/utils'
-import { CircleRendererSystem, ColliderRendererSystem, InputSystem, MoveSystem, NameplateRendererSystem, PhysicsSystem, TickSystem } from './modules/systems'
-
 import { NovaEventBus } from './modules/engine/events'
-import { AuthenticationRequestEvent, AuthenticationManager, ConnectionOpenedEvent, NetworkManager } from './modules/engine/networking'
+import { AuthenticationManager, NetworkManager } from './modules/engine/networking'
+import { GameManager } from './modules/game'
 
 const eventBus = new NovaEventBus()
 
 const networkManager = new NetworkManager(eventBus)
 const authenticationManager = new AuthenticationManager(networkManager)
 
-eventBus.subscribe(ConnectionOpenedEvent, () => {
-    eventBus.publish(new AuthenticationRequestEvent('Marem'))
-})
-
-networkManager.connect('ws://localhost:8080')
+const gameManager = new GameManager(eventBus)
 
 
 // const world = new World()
