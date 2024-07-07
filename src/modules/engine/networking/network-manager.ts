@@ -1,12 +1,13 @@
-import { ConnectionClosedEvent, ConnectionErrorEvent, ConnectionOpenedEvent, NetworkEvent, NetworkHandler, NetworkMessage, NetworkMessageEvent, NetworkMiddleware } from './'
+import { ConnectionClosedEvent, ConnectionErrorEvent, ConnectionOpenedEvent, NetworkHandler, NetworkMessage, NetworkMessageEvent, NetworkMiddleware } from './'
 import { NovaEventBus } from '../events'
+import { LogUtils } from '../utils'
 
 export class NetworkManager {
     socket?: WebSocket
     handlers: NetworkHandler[] = []
     middlewares: NetworkMiddleware[] = []
 
-    constructor(public eventBus: NovaEventBus<NetworkEvent>) { }
+    constructor(public eventBus: NovaEventBus) { }
 
     addHandler(handler: NetworkHandler) {
         this.handlers.push(handler)
@@ -21,7 +22,7 @@ export class NetworkManager {
         this.socket = socket
 
         socket.onopen = () => {
-            console.info('Connected to the server.')
+            LogUtils.info('NetworkManager', `Connected to the server`)
             this.eventBus.publish(new ConnectionOpenedEvent())
         }
 
@@ -35,17 +36,19 @@ export class NetworkManager {
 
             let handled = this.handlers.some(h => h.handleMessage(processedMessage))
 
-            if (!handled)
+            if (!handled) {
+                LogUtils.debug('NetworkManager', `Unhandled message type: '${processedMessage.type}'`)
                 this.eventBus.publish(new NetworkMessageEvent(processedMessage.type, processedMessage.payload, processedMessage.error))
+            }
         }
 
         socket.onclose = () => {
-            console.info('Lost connection to the server.')
+            LogUtils.info('NetworkManager', `Lost connection to the server`)
             this.eventBus.publish(new ConnectionClosedEvent())
         }
 
         socket.onerror = (error) => {
-            console.error('Error:', error)
+            LogUtils.info('NetworkManager', `Connection error`)
             this.eventBus.publish(new ConnectionErrorEvent(`${error}`))
         }
     }
@@ -60,10 +63,10 @@ export class NetworkManager {
 
                 this.socket.send(JSON.stringify(processedMessage))
             } else {
-                console.error(`Can not send a network message with an unopened socket.`)
+                LogUtils.error('NetworkManager', 'Can not send a network message with an unopened socket')
             }
         } else {
-            console.error('Can not send a network message without a socket.')
+            LogUtils.error('NetworkManager', 'Can not send a network message without a socket')
         }
     }
 }

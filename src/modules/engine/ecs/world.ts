@@ -1,13 +1,11 @@
-import { TimeUtils } from "../utils"
-import { Component, Entity, Event, EventType, System } from "./"
+import { LogUtils, TimeUtils } from "../utils"
+import { Component, Entity, System } from "./"
 
 export class World {
     private entities: Map<number, Entity> = new Map<number, Entity>()
     private components: Map<Function, Component[]> = new Map<Function, Component[]>()
     private singletons: Map<Function, Component> = new Map<Function, Component>()
     private systems: System[] = []
-    private pastEvents: Event[] = []
-    private eventQueue: Event[] = []
 
     private nextEntityId: number = 0
 
@@ -20,7 +18,6 @@ export class World {
 
         this.accumulatedTime += dt
 
-        this.clearEventQueue()
         while (this.accumulatedTime >= this.fixedTimeStep) { // comparing ms with ms
             this.updateFixedSystems(this.fixedTimeStep / 1000)
             this.accumulatedTime -= this.fixedTimeStep
@@ -87,7 +84,7 @@ export class World {
         if (!this.singletons.has(componentConstructor)) {
             this.singletons.set(componentConstructor, component)
         } else {
-            console.error('World', `Attempting to add a second ${componentConstructor.name} to the same world instance`)
+            LogUtils.error('World', `Attempting to add a second ${componentConstructor.name} to the same world instance`)
         }
     }
 
@@ -136,21 +133,6 @@ export class World {
         for (const system of this.systems) {
             system.updateFixed(fixedStep)
         }
-    }
-
-
-    // EVENTS
-    publishEvent(e: Event) {
-        this.eventQueue.push(e)
-    }
-
-    getEventsByType(type: EventType) {
-        return this.pastEvents.filter(event => event.type === type)
-    }
-
-    clearEventQueue() {
-        this.pastEvents = this.eventQueue
-        this.eventQueue = []
     }
 
 

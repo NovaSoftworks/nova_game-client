@@ -1,11 +1,13 @@
-import { NetworkEvent } from '../'
+import { NovaEvent } from '../../events'
 
-export interface AuthenticationEvent extends NetworkEvent { }
-
-export class AuthenticationSuccessEvent implements AuthenticationEvent {
-    constructor(username: string) { }
+export class AuthenticationRequestEvent implements NovaEvent {
+    constructor(public username: string) { }
 }
 
-export class AuthenticationFailureEvent implements AuthenticationEvent {
-    constructor(message: string) { }
+export class AuthenticationSuccessEvent implements NovaEvent {
+    constructor(public username: string) { }
+}
+
+export class AuthenticationFailureEvent implements NovaEvent {
+    constructor(public message: string) { }
 }

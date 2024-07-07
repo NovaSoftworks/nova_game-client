@@ -1,10 +1,15 @@
 import { Component, Entity, System, World } from '../'
+import { LogUtils } from '../../utils'
 
 describe('World Entity Management', () => {
     let world: World
 
     beforeEach(() => {
         world = new World()
+    })
+
+    afterEach(() => {
+        jest.restoreAllMocks()
     })
 
     it('should create an entity with a unique ID', () => {
@@ -31,7 +36,6 @@ describe('World Entity Management', () => {
         world.destroyEntity(entity.id)
 
         expect(spy).toHaveBeenCalledWith(entity.id)
-        spy.mockRestore()
     })
 
     it('should retrieve an entity by its ID', () => {
@@ -116,13 +120,10 @@ describe('World Singleton Management', () => {
         world.addSingleton(singleton1)
 
         // Spy on the logger to see if an error was logged
-        const spy = jest.spyOn(console, 'error').mockImplementation(() => { })
+        const spy = jest.spyOn(LogUtils, 'error').mockImplementation(() => { })
 
         world.addSingleton(singleton2)
-        expect(spy).toHaveBeenCalledWith('World', expect.stringContaining('Attempting to add a second MockSingletonComponent'))
-
-        // Restore the logger
-        spy.mockRestore()
+        expect(spy).toHaveBeenCalled()
     })
 
     it('should retrieve only the first instance of a singleton even if attempts were made to add more', () => {

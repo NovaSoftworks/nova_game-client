@@ -1,17 +1,24 @@
-import { AuthenticationFailureEvent, AuthenticationSuccessEvent, NetworkEvent, NetworkHandler, NetworkMessage } from '../'
+import { AuthenticationFailureEvent, AuthenticationSuccessEvent, NetworkHandler, NetworkMessage } from '../'
 import { NovaEventBus } from '../../events'
+import { LogUtils } from '../../utils'
 
 export class AuthenticationHandler implements NetworkHandler {
-    constructor(private networkEventBus: NovaEventBus<NetworkEvent>) { }
+    constructor(private eventBus: NovaEventBus) { }
 
     handleMessage(message: NetworkMessage) {
         switch (message.type) {
-            case 'authentication_success':
-                this.networkEventBus.publish(new AuthenticationSuccessEvent(message.payload['username']))
+            case 'authentication_success': {
+                const username = message.payload['username']
+                LogUtils.info('AuthenticationHandler', `Authentication success: '${username}'`)
+                this.eventBus.publish(new AuthenticationSuccessEvent(username))
                 return true
-            case 'authentication_failure':
-                this.networkEventBus.publish(new AuthenticationFailureEvent(message.payload['message']))
+            }
+            case 'authentication_failure': {
+                const failureMessage = message.payload['message']
+                LogUtils.error('AuthenticationHandler', `Authentication failure: '${failureMessage}'`)
+                this.eventBus.publish(new AuthenticationFailureEvent(failureMessage))
                 return true
+            }
             default:
                 return false
         }

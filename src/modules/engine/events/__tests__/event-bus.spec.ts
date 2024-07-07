@@ -9,10 +9,10 @@ describe('NovaEventBus', () => {
         constructor(public number: number) { }
     }
 
-    let eventBus: NovaEventBus<NovaEvent>
+    let eventBus: NovaEventBus
 
     beforeEach(() => {
-        eventBus = new NovaEventBus<NovaEvent>()
+        eventBus = new NovaEventBus()
     })
 
     describe('subscribe', () => {
